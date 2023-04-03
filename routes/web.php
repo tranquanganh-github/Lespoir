@@ -17,6 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //this view is create by vue
+//Trquanh
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
