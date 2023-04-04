@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Fruitkha;
 
-class NewController
+use App\Http\Controllers\Controller;
+
+class NewController extends Controller
 {
     function listNews()
     {

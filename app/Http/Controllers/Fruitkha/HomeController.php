@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Fruitkha;
 
-class HomeController
+use App\Http\Controllers\Controller;
+
+class HomeController extends Controller
 {
     function homeViewV1()
     {
