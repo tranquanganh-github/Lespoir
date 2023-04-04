@@ -3,8 +3,10 @@
 use App\Http\Controllers\Fruitkha\CheckoutController;
 use App\Http\Controllers\Fruitkha\HomeController;
 use App\Http\Controllers\Fruitkha\NewController;
+use App\Http\Controllers\Fruitkha\OrderController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
+use App\Models\Cloundinary;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -54,3 +56,14 @@ Route::get('/news/{id}', [NewController::class,"detailNew"])->name('detail-new')
 Route::get('/404-page', function () {
     return view('client.404page.404page');
 })->name('error404');
+
+Route::get("order/data-table",function (){
+   dd( \App\Models\User::find(1)->with(["carts"])->get()->toArray());
+});
+
+
+
+Route::post("upload-image",function(\Illuminate\Http\Request $request){
+//$colud = new Cloundinary();
+//dd($colud->uploadImage());
+})->name('updateload-img');

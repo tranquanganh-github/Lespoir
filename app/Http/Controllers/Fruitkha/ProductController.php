@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Fruitkha;
 
-class ProductController
+use App\Http\Controllers\Controller;
+
+class ProductController extends Controller
 {
     function detailProduct()
     {
