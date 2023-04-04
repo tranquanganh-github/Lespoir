@@ -1,4 +1,8 @@
 @extends("layouts.client.layout-home")
+@section('title')
+    <!-- title -->
+    <title>Home Page</title>
+@endsection
 @section('css')
     @yield('home-css')
 @endsection

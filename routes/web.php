@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Fruitkha\CheckoutController;
+use App\Http\Controllers\Fruitkha\HomeController;
+use App\Http\Controllers\Fruitkha\NewController;
+use App\Http\Controllers\Fruitkha\ProductController;
+use App\Http\Controllers\Fruitkha\ShopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,10 +31,26 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-Route::get('/home', function () {
-    return view('client.home.index');
-})->name('home.page1');
+Route::get('/home', [HomeController::class,"homeViewV1"])->name('home.page1');
 
-Route::get('/home-v2', function () {
-    return view('client.home.index2');
-})->name('home.page2');
+Route::get('/home-v2', [HomeController::class,"homeViewV2"])->name('home.page2');
+
+Route::get('/about-us', [HomeController::class,"aboutUsView"])->name('about-us');
+
+Route::get('/cart',  [ShopController::class,"cartView"])->name('cart');
+
+Route::get('/shop',  [ShopController::class,"shopView"])->name('shop');
+
+Route::get('/product/{id}', [ProductController::class,"detailProduct"])->name('detail-product');
+
+Route::get('/check-out', [CheckoutController::class,"checkOutView"])->name('check-out');
+
+Route::get('/contact-us', [HomeController::class,"contactView"])->name('contact');
+
+Route::get('/news', [NewController::class,"listNews"])->name('new');
+
+Route::get('/news/{id}', [NewController::class,"detailNew"])->name('detail-new');
+
+Route::get('/404-page', function () {
+    return view('client.404page.404page');
+})->name('error404');
