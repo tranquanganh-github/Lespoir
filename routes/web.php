@@ -25,3 +25,11 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('/home', function () {
+    return view('client.home.index');
+})->name('home.page1');
+
+Route::get('/home-v2', function () {
+    return view('client.home.index2');
+})->name('home.page2');
