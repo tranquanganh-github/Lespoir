@@ -16,9 +16,20 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
 //this view is create by vue
+//trinh huy
+//new
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::get('/home', function () {
+    return view('client.home.index');
+})->name('home.page1');
+
+Route::get('/home-v2', function () {
+    return view('client.home.index2');
+})->name('home.page2');
