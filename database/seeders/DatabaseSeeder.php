@@ -135,20 +135,7 @@ class DatabaseSeeder extends Seeder
                 'created_at'=>Carbon::now(),
             ],
         ]);
-        DB::table('role_user')->insert([
-            [
-                'id'=>3,
-                'user_id'=>1,
-                'role_id'=>1,
-                'created_at'=>Carbon::now(),
-            ],
-            [
-                'id'=>4,
-                'user_id'=>2,
-                'role_id'=>2,
-                'created_at'=>Carbon::now(),
-            ],
-        ]);
+   
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
