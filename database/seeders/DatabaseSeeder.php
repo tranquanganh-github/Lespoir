@@ -137,13 +137,13 @@ class DatabaseSeeder extends Seeder
         ]);
         DB::table('role_user')->insert([
             [
-                'id'=>1,
+                'id'=>3,
                 'user_id'=>1,
                 'role_id'=>1,
                 'created_at'=>Carbon::now(),
             ],
             [
-                'id'=>2,
+                'id'=>4,
                 'user_id'=>2,
                 'role_id'=>2,
                 'created_at'=>Carbon::now(),
