@@ -1,4 +1,5 @@
 @extends(".layouts.client.layout-another-page")
+
 @section('title-page')
     <title>Contact us</title>
 @endsection
