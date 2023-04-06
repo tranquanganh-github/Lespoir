@@ -53,6 +53,12 @@ Route::get('/news', [NewController::class,"listNews"])->name('new');
 
 Route::get('/news/{id}', [NewController::class,"detailNew"])->name('detail-new');
 
+Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
+
+Route::patch('/update-cart', [ProductController::class,"update"])->name('update');
+
+Route::delete('/remove-form-cart', [ProductController::class,"delete"])->name('delete');
+
 Route::get('/404-page', function () {
     return view('client.404page.404page');
 })->name('error404');
