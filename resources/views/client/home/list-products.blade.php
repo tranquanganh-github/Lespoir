@@ -9,17 +9,19 @@
     </div>
 
     <div class="row">
+    @foreach ($products as $products)
         <div class="col-lg-4 col-md-6 text-center">
             <div class="single-product-item">
                 <div class="product-image">
-                    <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
+                    <a href="single-product.html"><img src="{{ $products->thumbnail }}" alt=""></a>
                 </div>
-                <h3>Strawberry</h3>
-                <p class="product-price"><span>Per Kg</span> 85$ </p>
+                <h3>{{ $products->name }}</h3>
+                <p class="product-price"><span>Quantity:{{ $products->quantity }}</span>{{ $products->price }}$ </p>
                 <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
         </div>
-        <div class="col-lg-4 col-md-6 text-center">
+        @endforeach
+        <!-- <div class="col-lg-4 col-md-6 text-center">
             <div class="single-product-item">
                 <div class="product-image">
                     <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
@@ -38,7 +40,7 @@
                 <p class="product-price"><span>Per Kg</span> 35$ </p>
                 <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
             </div>
-        </div>
+        </div> -->
     </div>
 
 </div>
