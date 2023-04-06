@@ -8,6 +8,9 @@ class ProductController extends Controller
 {
     function detailProduct()
     {
-        return view('client.product.signle-product');
+        $cart = session()->get("cart");
+
+        return view('client.product.single-product');
     }
+
 }

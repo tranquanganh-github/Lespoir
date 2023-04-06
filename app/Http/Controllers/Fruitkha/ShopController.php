@@ -15,10 +15,10 @@ class ShopController extends Controller
     }
 
     function getListProduct(){
-       return $this->productRepository->getList();
+//       return $this->productRepository->getList();
 }
     function shopView(){
-        $prs = $this->getListProduct();
+//        $prs = $this->getListProduct();
         return view('client.shop.shop');
     }
     function cartView(){
