@@ -24,9 +24,8 @@
                                 <input type="text" placeholder="Name" name="name" id="name">
                                 <input type="email" placeholder="Email" name="email" id="email">
                             </p>
-                            <p>
-                                <input type="tel" placeholder="Phone" name="phone" id="phone">
-                                <input type="text" placeholder="Subject" name="subject" id="subject">
+                            <p >
+                                <input  type="tel" placeholder="Phone" name="phone" id="phone">
                             </p>
                             <p><textarea name="message" id="message" cols="30" rows="10" placeholder="Message"></textarea></p>
                             <input type="hidden" name="token" value="FsWga4&@f6aw" />

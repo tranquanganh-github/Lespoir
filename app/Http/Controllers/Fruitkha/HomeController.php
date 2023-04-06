@@ -20,7 +20,8 @@ class HomeController extends Controller
 
     function homeViewV2()
     {
-        return view('client.home.index-2');
+        $products=$this->getProductTop3();
+        return view('client.home.index-2',compact("products"));
     }
     function aboutUsView(){
         return view('client.about-us.about-us');
