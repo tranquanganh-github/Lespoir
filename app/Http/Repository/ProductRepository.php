@@ -13,7 +13,7 @@ class ProductRepository
     }
 
     function getAllOfProduct(){
-        $products=Products::select()->orderBy('created_at','ASC')->paginate(5);
+        $products=Products::select()->orderBy('created_at','ASC')->paginate(6);
         return $products;
     }
 }
