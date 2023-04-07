@@ -1,14 +1,18 @@
-<!DOCTYPE html>
+<?php
+$user = \Illuminate\Support\Facades\Auth::user();
+?>
+        <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+    <meta name="description"
+          content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
 
     <!-- title -->
 @yield("title")
-    <!-- favicon -->
+<!-- favicon -->
     <link rel="shortcut icon" type="image/png" href="../assets/img/favicon.png">
     <!-- google font -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -65,25 +69,15 @@
                                 </ul>
                             </li>
                             <li><a href="{{route('about-us')}}">About</a></li>
-                            <li><a href="#">Pages</a>
-                                <ul class="sub-menu">
-                                    <li><a href="{{route('error404')}}">404 page</a></li>
-                                    <li><a href="{{route('about-us')}}">About</a></li>
-                                    <li><a href="{{route('cart')}}">Cart</a></li>
-                                    <li><a href="{{route('check-out')}}">Check Out</a></li>
-                                    <li><a href="{{route('contact')}}">Contact</a></li>
-                                    <li><a href="{{route('new')}}">News</a></li>
-                                    <li><a href="{{route('shop')}}">Shop</a></li>
-                                </ul>
-                            </li>
                             <li><a href="{{route('new')}}">News</a>
                                 <ul class="sub-menu">
                                     <li><a href="{{route('new')}}">News</a></li>
                                     <li><a href="{{route('detail-new',["id"=>1])}}">Single News</a></li>
                                 </ul>
                             </li>
-                            <li><a href="{{route('contact')}}">Contact</a></li></li>
-                            <li><a href="{{route('shop')}}">Shop</a></li>
+                            <li><a href="{{route('contact')}}">Contact</a></li>
+
+                            <li><a href="{{route('shop')}}">Shop</a>
                                 <ul class="sub-menu">
                                     <li><a href="{{route('shop')}}">Shop</a></li>
                                     <li><a href="{{route('check-out')}}">Check Out</a></li>
@@ -91,11 +85,40 @@
                                     <li><a href="{{route('cart')}}">Cart</a></li>
                                 </ul>
                             </li>
+                            @if(!is_null($user))
+                                <li><a href="#">Account</a>
+                                    <ul class="sub-menu">
+                                        <li>
+
+                                           <span class="d-flex justify-content-between">
+                                             <span class="image"><img width="50" height="50"
+                                                                      style="border-radius: 50%"
+                                                                      src="https://cdn.pixabay.com/photo/2022/11/23/18/31/birds-7612651__340.png"
+                                                                      alt=""></span>
+                                               <span class="user-name align-items-center d-flex"
+                                                     style="margin-left: 10px;font-size: 19px">{{$user->username}}</span>
+                                                    <span class="user-name align-items-center d-flex"
+                                                          style="margin-left: 10px;font-size: 19px">
+                                                        <a href="{{route("sign.out")}}">
+                                                            <i class="fas fa-sign-out-alt"></i>
+                                                        </a></span>
+
+                                           </span>
+
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            @endif
                             <li>
-                                <div class="header-icons">
-                                    <a class="shopping-cart" href="{{route('cart')}}"><i class="fas fa-shopping-cart"></i></a>
+                                <div class="header-icons" >
+                                    <a class="shopping-cart" href="{{route('cart')}}"><i
+                                                class="fas fa-shopping-cart"></i></a>
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
-                                </div>
+                                    @if(is_null($user))
+                                        <a class="mobile-hide " href="{{route("login.get")}}">Login</a>
+                                        @endif
+                                    </div>
                             </li>
                         </ul>
                     </nav>
@@ -163,7 +186,8 @@
             <div class="col-lg-3 col-md-6">
                 <div class="footer-box about-widget">
                     <h2 class="widget-title">About us</h2>
-                    <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
+                    <p>Ut enim ad minim veniam perspiciatis unde omnis iste natus error sit voluptatem accusantium
+                        doloremque laudantium, totam rem aperiam, eaque ipsa quae.</p>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
@@ -208,7 +232,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-12">
-                <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>,  All Rights Reserved.<br>
+                <p>Copyrights &copy; 2019 - <a href="https://imransdesign.com/">Imran Hossain</a>, All Rights
+                    Reserved.<br>
                     Distributed By - <a href="https://themewagon.com/">Themewagon</a>
                 </p>
             </div>

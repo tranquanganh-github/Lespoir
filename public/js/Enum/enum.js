@@ -1,0 +1,3 @@
+const STATUS_MISS_DATA = 300;
+const STATUS_SUCCESS = 200;
+const STATUS_FAIL = 400;
