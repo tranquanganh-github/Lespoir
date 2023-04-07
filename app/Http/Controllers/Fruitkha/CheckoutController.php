@@ -40,12 +40,13 @@ class CheckoutController extends Controller
         if (is_null($user)) {
             return redirect()->route("login.get");
         }
-//        $carts = session()->get("cart");
+        $products = session()->get("cart");
         $carts = array();
-        $products = (new ProductRepository())->getTop3Product();
         $sum = 0;
         $ship = 10;
         foreach ($products as $product) {
+           $product =  (object)$product;
+
             array_push($carts, [
                 "id" => $product->id,
                 "quantity" => $product->quantity,
@@ -55,6 +56,7 @@ class CheckoutController extends Controller
             ]);
             $sum += $product->price * $product->quantity;
         }
+        
         return view('client.checkout.checkout', compact("sum", "ship", "user", "carts"));
     }
 

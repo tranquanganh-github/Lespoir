@@ -6,15 +6,19 @@
     <p>FRESH AND ORGANIC</p>
     <h1>Cart</h1>
 @endsection
-@section('scripts')
+@section('javascript')
     <script type="text/javascript">
         $(".update-cart").click(function (e) {
             e.preventDefault();
             var ele = $(this);
+            let id = ele.attr("data-id");
             $.ajax({
-                url: '{{ url('/update-cart') }}',
+                url: '{{route("cart.update")}}',
                 method: "post",
-                data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: ele.parents("tr").find(".quantity").val()},
+                data: {
+                    id: id,
+                    quantity: $("input[name=quantity_"+id+"]").val()
+                },
                 success: function (response) {
                     window.location.reload();
                 }
@@ -23,11 +27,15 @@
         $(".remove-from-cart").click(function (e) {
             e.preventDefault();
             var ele = $(this);
+            let id = ele.attr("data-id");
             if(confirm("Are you sure")) {
                 $.ajax({
-                    url: '{{ url('/remove-from-cart') }}',
-                    method: "delete",
-                    data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id")},
+                    url: '{{route("cart.delete")}}',
+                    method: "post",
+                    data: {
+                        id: id,
+                        quantity: $("input[name=quantity_"+id+"]").val()
+                    },
                     success: function (response) {
                         window.location.reload();
                     }
@@ -61,8 +69,8 @@
                                     <?php $total += $row['quantity'] * $row['price'];?>
                                         <tr class="table-body-row">
                                             <td class="product-remove" data-th="">
-                                                <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fas fa-refresh"></i></button>
-                                                <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fas fa-trash-o"></i></button>
+                                                <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fas fa-air-freshener"></i></button>
+                                                <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fas fa-trash-alt"></i></button>
                                             </td>
                                             <td class="product-image"><a href="{{ route("detail-product",['id'=>$row['id']]) }}"><img src="{{$row['thumbnail']}}" alt=""></a></td>
                                             <td class="product-name"><a href="{{ route("detail-product",['id'=>$row['id']]) }}">{{$row['name']}}</a></td>
@@ -93,11 +101,11 @@
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Shipping: </strong></td>
-                                <td>$25</td>
+                                <td>$10</td>
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Total: </strong></td>
-                                <td>$<?php echo $total += 25?></td>
+                                <td>${{$total+=10}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -107,15 +115,15 @@
                         </div>
                     </div>
 
-                    <div class="coupon-section">
-                        <h3>Apply Coupon</h3>
-                        <div class="coupon-form-wrap">
-                            <form action="index.html">
-                                <p><input type="text" placeholder="Coupon"></p>
-                                <p><input type="submit" value="Apply"></p>
-                            </form>
-                        </div>
-                    </div>
+{{--                    <div class="coupon-section">--}}
+{{--                        <h3>Apply Coupon</h3>--}}
+{{--                        <div class="coupon-form-wrap">--}}
+{{--                            <form action="index.html">--}}
+{{--                                <p><input type="text" placeholder="Coupon"></p>--}}
+{{--                                <p><input type="submit" value="Apply"></p>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>

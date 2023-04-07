@@ -61,9 +61,9 @@ Route::get('/news/{id}', [NewController::class, "detailNew"])->name('detail-new'
 
 Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
 
-Route::patch('/update-cart', [ProductController::class,"update"])->name('update');
+Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
 
-Route::delete('/remove-form-cart', [ProductController::class,"delete"])->name('delete');
+Route::post('/remove-form-cart', [ProductController::class,"delete"])->name('cart.delete');
 
 Route::get('/404-page', function () {
     return view('client.404page.404page');
