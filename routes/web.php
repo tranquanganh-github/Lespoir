@@ -27,9 +27,7 @@ Route::get('/', function () {
 //this view is create by vue
 //trinh huy
 //new
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__.'/auth.php';
 
@@ -53,6 +51,7 @@ Route::get('/news', [NewController::class,"listNews"])->name('new');
 
 Route::get('/news/{id}', [NewController::class,"detailNew"])->name('detail-new');
 
+
 Route::get('/404-page', function () {
     return view('client.404page.404page');
 })->name('error404');
@@ -67,3 +66,8 @@ Route::post("upload-image",function(\Illuminate\Http\Request $request){
 //$colud = new Cloundinary();
 //dd($colud->uploadImage());
 })->name('updateload-img');
+
+Route::get('/admin/product-datatable',[ProductController::class, 'index'])->name('product-datatable');
+Route::get('/admin/product-edit',[ProductController::class, 'edit'])->name('admin.product-edit');
+Route::post('/admin/product-store', [ProductController::class, 'store'])->name('admin.product-store');
+Route::get('/admin/product-create', [ProductController::class,'create'])->name('product-create');

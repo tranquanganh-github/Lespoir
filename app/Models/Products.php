@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Products extends Model
 {
     use HasFactory;
-    protected $table = "products";
+    protected $products = "products";
     public $timestamps = true;
     protected $fillable = [
         "thumbnail",
@@ -16,6 +16,8 @@ class Products extends Model
         "quantity",
         "price",
         "status",
+        "created_at",
+        "updated_at"
     ];
     public function order_details(){
         return $this->hasMany(OrderDetail::class,"order_id","id");
