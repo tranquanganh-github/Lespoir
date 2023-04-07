@@ -9,7 +9,7 @@ class ShoppingCart extends Model
 {
     use HasFactory;
     protected $table="shopping_carts";
-    public $timestamps= true;
+    public $timestamps = true;
     protected $fillable = [
         "user_id",
         "status",

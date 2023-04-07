@@ -147,8 +147,10 @@ if(session('cart') != null){
                 <div class="search-bar">
                     <div class="search-bar-tablecell">
                         <h3>Search For:</h3>
-                        <input type="text" placeholder="Keywords">
-                        <button type="submit">Search <i class="fas fa-search"></i></button>
+                        <form action="{{route("shop")}}" method="GET">
+                            <input type="text" name="search" placeholder="Keywords">
+                            <button type="submit">Search <i class="fas fa-search"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -279,6 +281,22 @@ if(session('cart') != null){
 <script src="../assets/js/sticker.js"></script>
 <!-- main js -->
 <script src="../assets/js/main.js"></script>
-@yield("script")
+{{--sweet alert--}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{--enum--}}
+<script src="./js/Enum/enum.js"></script>
+<script>
+    function showLoad() {
+        $(".loader").fadeIn(300);
+    }
+
+    function hiddenLoad() {
+        setTimeout(function(){
+            $(".loader").fadeOut(300);
+        },0);
+    }
+
+</script>
+@yield("javascript")
 </body>
 </html>
