@@ -11,7 +11,7 @@ class ProductController extends Controller
     function detailProduct(Request $request)
     {
         $product = Products::find($request->id);
-        return view('client.product.single-product');
+        return view('client.product.single-product',["product" => $product]);
     }
 
     function addToCart(Request $request){
