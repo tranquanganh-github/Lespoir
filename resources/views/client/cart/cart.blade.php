@@ -66,7 +66,8 @@
                             <?php $total = 0;?>
                             @if(session('cart') != null)
                                 @foreach(session('cart') as $id => $row)
-                                    <?php $total += $row['quantity'] * $row['price'];?>
+                                    <?php $subTotal = $row['quantity'] * $row['price'];?>
+                                    <?php $total += $subTotal;?>
                                         <tr class="table-body-row">
                                             <td class="product-remove" data-th="">
                                                 <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fas fa-air-freshener"></i></button>
@@ -74,9 +75,9 @@
                                             </td>
                                             <td class="product-image"><a href="{{ route("detail-product",['id'=>$row['id']]) }}"><img src="{{$row['thumbnail']}}" alt=""></a></td>
                                             <td class="product-name"><a href="{{ route("detail-product",['id'=>$row['id']]) }}">{{$row['name']}}</a></td>
-                                            <td class="product-price">{{$row['price']}}</td>
+                                            <td class="product-price">$ {{$row['price']}}</td>
                                             <td class="product-quantity" data-th="Quantity"><input type="number" value="{{$row['quantity']}}" name="quantity_{{$id}}"></td>
-                                            <td class="product-total">{{$row['quantity']}}</td>
+                                            <td class="product-total">$ {{$subTotal}}</td>
                                         </tr>
                                 @endforeach
                             @endif
@@ -97,15 +98,15 @@
                             <tbody>
                             <tr class="total-data">
                                 <td><strong>Subtotal: </strong></td>
-                                <td>$<?php echo $total;?></td>
+                                <td>$ <?php echo $total;?></td>
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Shipping: </strong></td>
-                                <td>$10</td>
+                                <td>$ 10</td>
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Total: </strong></td>
-                                <td>${{$total+=10}}</td>
+                                <td>$ {{$total+=10}}</td>
                             </tr>
                             </tbody>
                         </table>
