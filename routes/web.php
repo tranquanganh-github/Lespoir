@@ -63,7 +63,7 @@ Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('a
 
 Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
 
-Route::post('/remove-form-cart', [ProductController::class,"delete"])->name('cart.delete');
+Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
 Route::get('/404-page', function () {
     return view('client.404page.404page');
