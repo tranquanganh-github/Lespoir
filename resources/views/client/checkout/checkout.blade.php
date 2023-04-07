@@ -94,7 +94,7 @@
                             </tr>
                             </thead>
                             <tbody class="order-details-body">
-
+                    @if(!is_null($carts))
                         @foreach($carts as $key => $cart)
                             <tr class="data-cart" data-name="{{$cart["name"]}}"
                                 data-id="{{$cart["id"]}}"
@@ -106,7 +106,7 @@
                                 <td>{{$cart["quantity"] * $cart["price"]}}</td>
                             </tr>
                         @endforeach
-
+                    @endif
                             </tbody>
                             <tbody class="checkout-details">
                             <tr>

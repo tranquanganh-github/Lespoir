@@ -44,19 +44,20 @@ class CheckoutController extends Controller
         $carts = array();
         $sum = 0;
         $ship = 10;
-        foreach ($products as $product) {
-           $product =  (object)$product;
+        if (!is_null($products)) {
+            foreach ($products as $product) {
+                $product = (object)$product;
 
-            array_push($carts, [
-                "id" => $product->id,
-                "quantity" => $product->quantity,
-                "thumbnail" => $product->thumbnail,
-                "name" => $product->name,
-                "price" => $product->price,
-            ]);
-            $sum += $product->price * $product->quantity;
+                array_push($carts, [
+                    "id" => $product->id,
+                    "quantity" => $product->quantity,
+                    "thumbnail" => $product->thumbnail,
+                    "name" => $product->name,
+                    "price" => $product->price,
+                ]);
+                $sum += $product->price * $product->quantity;
+            }
         }
-        
         return view('client.checkout.checkout', compact("sum", "ship", "user", "carts"));
     }
 

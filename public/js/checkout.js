@@ -25,6 +25,7 @@ function archiveFunction(message) {
     }).then((result) => {
         if (result.isConfirmed) {
             sendAjax(CheckoutUrl,getData());
+            confirm = "true";
         } else if (result.isDenied) {
             Swal.fire('Changes are not saved', '', 'info')
         }
@@ -79,7 +80,6 @@ function sendAjax(url,data){
                     alertMethod("Error System", "error");
                     break;
             }
-            confirm = true;
         },
         error: function (){
         hiddenLoad();
