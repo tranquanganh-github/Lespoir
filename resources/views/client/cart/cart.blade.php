@@ -6,6 +6,44 @@
     <p>FRESH AND ORGANIC</p>
     <h1>Cart</h1>
 @endsection
+@section('javascript')
+    <script type="text/javascript">
+        $(".update-cart").click(function (e) {
+            e.preventDefault();
+            var ele = $(this);
+            let id = ele.attr("data-id");
+            $.ajax({
+                url: '{{route("cart.update")}}',
+                method: "post",
+                data: {
+                    id: id,
+                    quantity: $("input[name=quantity_"+id+"]").val()
+                },
+                success: function (response) {
+                    window.location.reload();
+                }
+            });
+        });
+        $(".remove-from-cart").click(function (e) {
+            e.preventDefault();
+            var ele = $(this);
+            let id = ele.attr("data-id");
+            if(confirm("Are you sure")) {
+                $.ajax({
+                    url: '{{route("cart.delete")}}',
+                    method: "post",
+                    data: {
+                        id: id,
+                        quantity: $("input[name=quantity_"+id+"]").val()
+                    },
+                    success: function (response) {
+                        window.location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+@endsection
 @section('content-page')
     <!-- cart -->
     <div class="cart-section mt-150 mb-150">
@@ -25,30 +63,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="assets/img/products/product-img-1.jpg" alt=""></td>
-                                <td class="product-name">Strawberry</td>
-                                <td class="product-price">$85</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="assets/img/products/product-img-2.jpg" alt=""></td>
-                                <td class="product-name">Berry</td>
-                                <td class="product-price">$70</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
-                            <tr class="table-body-row">
-                                <td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
-                                <td class="product-image"><img src="assets/img/products/product-img-3.jpg" alt=""></td>
-                                <td class="product-name">Lemon</td>
-                                <td class="product-price">$35</td>
-                                <td class="product-quantity"><input type="number" placeholder="0"></td>
-                                <td class="product-total">1</td>
-                            </tr>
+                            <?php $total = 0;?>
+                            @if(session('cart') != null)
+                                @foreach(session('cart') as $id => $row)
+                                    <?php $total += $row['quantity'] * $row['price'];?>
+                                        <tr class="table-body-row">
+                                            <td class="product-remove" data-th="">
+                                                <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fas fa-air-freshener"></i></button>
+                                                <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fas fa-trash-alt"></i></button>
+                                            </td>
+                                            <td class="product-image"><a href="{{ route("detail-product",['id'=>$row['id']]) }}"><img src="{{$row['thumbnail']}}" alt=""></a></td>
+                                            <td class="product-name"><a href="{{ route("detail-product",['id'=>$row['id']]) }}">{{$row['name']}}</a></td>
+                                            <td class="product-price">{{$row['price']}}</td>
+                                            <td class="product-quantity" data-th="Quantity"><input type="number" value="{{$row['quantity']}}" name="quantity_{{$id}}"></td>
+                                            <td class="product-total">{{$row['quantity']}}</td>
+                                        </tr>
+                                @endforeach
+                            @endif
                             </tbody>
                         </table>
                     </div>
@@ -66,33 +97,33 @@
                             <tbody>
                             <tr class="total-data">
                                 <td><strong>Subtotal: </strong></td>
-                                <td>$500</td>
+                                <td>$<?php echo $total;?></td>
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Shipping: </strong></td>
-                                <td>$45</td>
+                                <td>$10</td>
                             </tr>
                             <tr class="total-data">
                                 <td><strong>Total: </strong></td>
-                                <td>$545</td>
+                                <td>${{$total+=10}}</td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="cart-buttons">
-                            <a href="cart.html" class="boxed-btn">Update Cart</a>
+                            {{--                            <a href="" class="boxed-btn">Clear All</a>--}}
                             <a href="checkout.html" class="boxed-btn black">Check Out</a>
                         </div>
                     </div>
 
-                    <div class="coupon-section">
-                        <h3>Apply Coupon</h3>
-                        <div class="coupon-form-wrap">
-                            <form action="index.html">
-                                <p><input type="text" placeholder="Coupon"></p>
-                                <p><input type="submit" value="Apply"></p>
-                            </form>
-                        </div>
-                    </div>
+{{--                    <div class="coupon-section">--}}
+{{--                        <h3>Apply Coupon</h3>--}}
+{{--                        <div class="coupon-form-wrap">--}}
+{{--                            <form action="index.html">--}}
+{{--                                <p><input type="text" placeholder="Coupon"></p>--}}
+{{--                                <p><input type="submit" value="Apply"></p>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                 </div>
             </div>
         </div>
