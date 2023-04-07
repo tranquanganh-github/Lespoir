@@ -65,9 +65,7 @@ Route::post('/update-cart', [ProductController::class,"update"])->name('cart.upd
 
 Route::post('/remove-form-cart', [ProductController::class,"delete"])->name('cart.delete');
 
-Route::get('/404-page', function () {
-    return view('client.404page.404page');
-})->name('error404');
+
 
 Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();
