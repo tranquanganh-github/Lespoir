@@ -1,5 +1,11 @@
 <?php
 $user = \Illuminate\Support\Facades\Auth::user();
+$total_products_cart = 0;
+if(session('cart') != null){
+    foreach (session('cart') as $row) {
+        $total_products_cart += $row['quantity'];
+    }
+}
 ?>
         <!DOCTYPE html>
 <html lang="en">
@@ -113,7 +119,7 @@ $user = \Illuminate\Support\Facades\Auth::user();
                             <li>
                                 <div class="header-icons" >
                                     <a class="shopping-cart" href="{{route('cart')}}"><i
-                                                class="fas fa-shopping-cart"></i></a>
+                                                class="fas fa-shopping-cart"></i> {{$total_products_cart}}</a>
                                     <a class="mobile-hide search-bar-icon" href="#"><i class="fas fa-search"></i></a>
                                     @if(is_null($user))
                                         <a class="mobile-hide " href="{{route("login.get")}}">Login</a>

@@ -8,14 +8,8 @@
 @endsection
 @section('content-page')
 <?php
-    $product = (object)[
-        'id' => 5,
-        'name' => 'Green apples',
-        'thumbnail' => 'https://themewagon.github.io/fruitkha/assets/img/products/product-img-5.jpg',
-        'price' => '45'
-    ];
-    $cartItem = isset(session()->get('cart')[$product->id]) ? session()->get('cart')[$product->id] : null;
-    $quantity = is_null($cartItem) ? 1 : $cartItem["quantity"];
+    $cartItem = isset(session()->get('cart')[$product['id']]) ? session()->get('cart')[$product['id']] : null;
+    $quantity = is_null($cartItem) ? 1 : $cartItem["quantity"] ;
 ?>
     <!-- single product -->
     <div class="single-product mt-150 mb-150">
@@ -23,18 +17,18 @@
             <div class="row">
                 <div class="col-md-5">
                     <div class="single-product-img">
-                        <img src="{{$product->thumbnail}}" alt="">
+                        <img src="{{$product['thumbnail']}}" alt="">
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="single-product-content">
-                        <h3>{{ $product->name }} have polyphenols</h3>
-                        <p class="single-product-pricing"><span>Per Kg</span> {{ $product->price }}</p>
+                        <h3>{{ $product['name'] }} have polyphenols</h3>
+                        <p class="single-product-pricing"><span>Per Kg</span>$ {{ $product['price'] }}</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta sint dignissimos, rem commodi cum voluptatem quae reprehenderit repudiandae ea tempora incidunt ipsa, quisquam animi perferendis eos eum modi! Tempora, earum.</p>
                         <div class="single-product-form">
-                            <form action="{{ route("addToCart",['id'=>$product->id]) }}">
+                            <form action="{{ route("addToCart",['id'=>$product['id']]) }}">
                                 <input type="number" placeholder="0" value="{{$quantity}}" name="quantity">
-                                <input type="hidden" name="id" value="{{$product->id}}"></input>
+                                <input type="hidden" name="id" value="{{$product['id']}}"></input>
                                 <button type="submit" class="cart-btn">Add to Cart</button>
                                 <p><strong>Categories: </strong>Fruits, Organic</p>
                             </form>

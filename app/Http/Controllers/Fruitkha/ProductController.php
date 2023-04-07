@@ -8,48 +8,33 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    function detailProduct()
+    function detailProduct(Request $request)
     {
-        $cart = session()->get("cart");
-
+        $product = Products::find($request->id);
         return view('client.product.single-product');
     }
 
     function addToCart(Request $request){
         $product = Products::find($request->id);
+        $cart = session()->get('cart');
+        $request->quantity  == null ? $quantity = 1 : $quantity = $request->quantity;
         if(empty($product)){
             abort(404);
         }else{
-            $cart = session()->get('cart');
-            if(empty($cart)){
-                $cart = [
-                    $product->id => [
-                        "id" => $product->id,
-                        "name" => $product->name,
-                        "thumbnail" => $product->thumbnail,
-                        "quantity" => $request->quantity,
-                        "price" => $product->price
-                    ]
-                ];
-                session()->put('cart', $cart);
-                return redirect()->back();
-            }
             if(isset($cart[$product->id])){
-                $cart[$product->id]['quantity'] += $request->quantity ;
-                session()->put('cart', $cart);
-                return redirect()->back();
-            }
-            $cart = [
-                $product->id => [
+                $cart[$product->id]['quantity'] += $quantity;
+            }else{
+                $cart[$product->id] = [
                     "id" => $product->id,
                     "name" => $product->name,
                     "thumbnail" => $product->thumbnail,
-                    "quantity" => 1,
+                    "quantity" => $quantity,
                     "price" => $product->price
-                ]
-            ];
+                ];
+            }
             session()->put('cart', $cart);
             return redirect()->back();
+
         }
     }
 

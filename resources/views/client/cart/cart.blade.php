@@ -13,7 +13,7 @@
             var ele = $(this);
             $.ajax({
                 url: '{{ url('/update-cart') }}',
-                method: "patch",
+                method: "post",
                 data: {_token: '{{ csrf_token() }}', id: ele.attr("data-id"), quantity: ele.parents("tr").find(".quantity").val()},
                 success: function (response) {
                     window.location.reload();
@@ -64,10 +64,10 @@
                                                 <button class="btn btn-info btn-sm update-cart" data-id="{{ $id }}"><i class="fas fa-refresh"></i></button>
                                                 <button class="btn btn-danger btn-sm remove-from-cart" data-id="{{ $id }}"><i class="fas fa-trash-o"></i></button>
                                             </td>
-                                            <td class="product-image"><img src="{{$row['thumbnail']}}" alt=""></td>
-                                            <td class="product-name">{{$row['name']}}</td>
+                                            <td class="product-image"><a href="{{ route("detail-product",['id'=>$row['id']]) }}"><img src="{{$row['thumbnail']}}" alt=""></a></td>
+                                            <td class="product-name"><a href="{{ route("detail-product",['id'=>$row['id']]) }}">{{$row['name']}}</a></td>
                                             <td class="product-price">{{$row['price']}}</td>
-                                            <td class="product-quantity" data-th="Quantity"><input type="number" value="{{$row['quantity']}}"></td>
+                                            <td class="product-quantity" data-th="Quantity"><input type="number" value="{{$row['quantity']}}" name="quantity_{{$id}}"></td>
                                             <td class="product-total">{{$row['quantity']}}</td>
                                         </tr>
                                 @endforeach
@@ -102,7 +102,7 @@
                             </tbody>
                         </table>
                         <div class="cart-buttons">
-                            <a href="cart.html" class="boxed-btn">Update Cart</a>
+                            {{--                            <a href="" class="boxed-btn">Clear All</a>--}}
                             <a href="checkout.html" class="boxed-btn black">Check Out</a>
                         </div>
                     </div>
