@@ -71,3 +71,10 @@ Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();
 //dd($colud->uploadImage());
 })->name('updateload-img');
+
+Route::get('/admin/product-datatable',[ProductController::class, 'index'])->name('product-datatable');
+Route::get('/admin/{id}/product-edit',[ProductController::class, 'edit'])->name('edit');
+Route::post('/admin/product-store', [ProductController::class, 'store'])->name('store');
+Route::get('/admin/product-create', [ProductController::class,'create'])->name('create');
+Route::post('/admin/{id}', [ProductController::class, 'updateProduct'])->name('update');
+Route::delete('/admin/products/{id}', [ProductController::class, 'destroy'])->name('delete');
