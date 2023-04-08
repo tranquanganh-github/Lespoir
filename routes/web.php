@@ -6,7 +6,9 @@ use App\Http\Controllers\Fruitkha\NewController;
 use App\Http\Controllers\Fruitkha\OrderController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
+use App\Http\Enum\Status;
 use App\Models\Cloundinary;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,9 +39,13 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/check-out', [CheckoutController::class, "checkOutView"])->name('check-out');
     Route::post('/check-out', [CheckoutController::class, "paymentOnDelivery"])->name('payment.delivery');
     Route::post('/check-paypal', [CheckoutController::class, "paymentOnPaypal"])->name('payment.paypal');
-
+    Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
+    Route::get("/payment-message",[CheckoutController::class,"viewMessage"])->name("check-out-status");
 });
 
+Route::get("de",function (){
+  return  redirect()->route("check-out-status")->with(["message_for_checkout" => value(Status::STATUS_SUCCESS)]);
+});
 
 Route::get('/home', [HomeController::class, "homeViewV1"])->name('home.page1');
 
