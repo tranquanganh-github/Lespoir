@@ -12,7 +12,7 @@ class UserController extends Controller
  function tableView(){
     $user=new AuthRepository();
     $users=$user->getAllOfUser(); 
-    return view("data-table",compact("users"));
+    return view("users",compact("users"));
  }
 
 
