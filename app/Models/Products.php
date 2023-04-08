@@ -19,6 +19,7 @@ class Products extends Model
         "created_at",
         "updated_at"
     ];
+
     public function order_details(){
         return $this->hasMany(OrderDetail::class,"order_id","id");
     }

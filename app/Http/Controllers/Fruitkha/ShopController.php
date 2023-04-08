@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Fruitkha;
 
 use App\Http\Controllers\Controller;
 use App\Http\Repository\ProductRepository;
+use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
@@ -18,16 +19,17 @@ class ShopController extends Controller
 //     $products=$this->getAllProduct();
 //        return $this->productRepository;
 // }
-    function shopView(){
-        $products=$this->getAllProduct();
+    function shopView(Request $request){
+
+        $products=$this->getAllProduct($request->search);
         return view('client.shop.shop',compact("products"));
     }
     function cartView(){
         return view('client.cart.cart');
     }
 
-    function getAllProduct(){
-        $products=$this->productRepository->getAllOfProduct();
+    function getAllProduct($keyword){
+        $products=$this->productRepository->getAllOfProduct($keyword);
         return $products;
     }
 }
