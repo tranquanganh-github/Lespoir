@@ -4,6 +4,7 @@ use App\Http\Controllers\Fruitkha\CheckoutController;
 use App\Http\Controllers\Fruitkha\HomeController;
 use App\Http\Controllers\Fruitkha\NewController;
 use App\Http\Controllers\Fruitkha\OrderController;
+use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
 use App\Http\Enum\Status;
@@ -43,9 +44,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get("/payment-message",[CheckoutController::class,"viewMessage"])->name("check-out-status");
 });
 
-Route::get("de",function (){
-  return  redirect()->route("check-out-status")->with(["message_for_checkout" => value(Status::STATUS_SUCCESS)]);
-});
+
 
 Route::get('/home', [HomeController::class, "homeViewV1"])->name('home.page1');
 
@@ -70,6 +69,10 @@ Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('a
 Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
 
 Route::post('/remove-form-cart', [ProductController::class,"delete"])->name('cart.delete');
+
+Route::get('/users', [UserController::class,"tableView"]);
+Route::get('/users/{id}', [UserController::class,"updateUser"]);
+//Route::post('/users/{id}', [UserController::class,"updateUser"]);
 
 
 
