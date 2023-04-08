@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Fruitkha;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repository\ProductRepository;
 use App\Models\Products;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    protected $productRepository;
+    public function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     function detailProduct(Request $request)
     {
         $product = Products::find($request->id);
-        return view('client.product.single-product',["product" => $product]);
+        $products =   $this->productRepository->getTop3Product();
+        return view('client.product.single-product',["products"=>$products,"product" => $product]);
     }
 
     function addToCart(Request $request){

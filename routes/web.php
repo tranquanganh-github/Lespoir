@@ -4,9 +4,12 @@ use App\Http\Controllers\Fruitkha\CheckoutController;
 use App\Http\Controllers\Fruitkha\HomeController;
 use App\Http\Controllers\Fruitkha\NewController;
 use App\Http\Controllers\Fruitkha\OrderController;
+use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
+use App\Http\Enum\Status;
 use App\Models\Cloundinary;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,8 +40,10 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/check-out', [CheckoutController::class, "checkOutView"])->name('check-out');
     Route::post('/check-out', [CheckoutController::class, "paymentOnDelivery"])->name('payment.delivery');
     Route::post('/check-paypal', [CheckoutController::class, "paymentOnPaypal"])->name('payment.paypal');
-
+    Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
+    Route::get("/payment-message",[CheckoutController::class,"viewMessage"])->name("check-out-status");
 });
+
 
 
 Route::get('/home', [HomeController::class, "homeViewV1"])->name('home.page1');
@@ -65,9 +70,11 @@ Route::post('/update-cart', [ProductController::class,"update"])->name('cart.upd
 
 Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
-Route::get('/404-page', function () {
-    return view('client.404page.404page');
-})->name('error404');
+Route::get('/users', [UserController::class,"tableView"]);
+Route::get('/users/{id}', [UserController::class,"updateUser"]);
+//Route::post('/users/{id}', [UserController::class,"updateUser"]);
+
+
 
 Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();

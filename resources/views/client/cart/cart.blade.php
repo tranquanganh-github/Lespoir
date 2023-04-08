@@ -112,7 +112,7 @@
                         </table>
                         <div class="cart-buttons">
                             {{--                            <a href="" class="boxed-btn">Clear All</a>--}}
-                            <a href="checkout.html" class="boxed-btn black">Check Out</a>
+                            <a href="{{route("check-out")}}" class="boxed-btn black">Check Out</a>
                         </div>
                     </div>
 
