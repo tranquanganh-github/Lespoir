@@ -26,6 +26,7 @@ function order(event){
             text: 'SYou have no products in your shopping cart!',
         })
     }else{
+        showLoad();
         ajaxPaypal(PayPalCheckoutUrl,data);
     }
 });
@@ -111,6 +112,7 @@ function sendAjax(url,data){
     });
 }
 function ajaxPaypal(url,data){
+
     $.ajax({
         type: "POST",
         url:url,
