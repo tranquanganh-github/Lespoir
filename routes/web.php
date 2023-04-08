@@ -30,9 +30,7 @@ Route::get('/', function () {
 //this view is create by vue
 //trinh huy
 //new
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__ . '/auth.php';
 
@@ -43,7 +41,58 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
     Route::get("/payment-message",[CheckoutController::class,"viewMessage"])->name("check-out-status");
 });
+Route::group(["prefix"=>"/admin"], function () {
+    //Dashboard
+    Route::get('/dashboard', function () {
+        return view('admin.Dashborad.dashboard');
+    })->name("admin.dashboard");
+    //Email
+    Route::get('/email-inobox', function () {
+        return view('admin.email.inbox');
+    })->name("admin.email.inbox");
+    Route::get('/email-read', function () {
+        return view('admin.email.read');
+    })->name("admin.email.read");
+    Route::get('/email-compose', function () {
+        return view('admin.email.compose');
+    })->name("admin.email.compose");
+    //App
+    Route::get("/app-calendar",function (){
+        return view("admin.app.calendar");
+    })->name("admin.app.calendar");
+    //Table
+    Route::get("/table-products",function (){
+        return view("admin.table.products");
+    })->name("admin.table.products");
 
+    Route::get("/table-orders",function (){
+        return view("admin.table.orders");
+    })->name("admin.table.orders");
+
+    Route::get("/table-users",function (){
+        return view("admin.table.users");
+    })->name("admin.table.users");
+
+    Route::get("/table-news",function (){
+        return view("admin.table.news");
+    })->name("admin.table.news");
+    //Form
+    Route::get("/form-product",function (){
+        return view("admin.form.product");
+    })->name("admin.form.product");
+
+    Route::get("/form-order",function (){
+        return view("admin.form.order");
+    })->name("admin.form.order");
+
+    Route::get("/form-user",function (){
+        return view("admin.form.user");
+    })->name("admin.form.user");
+
+    Route::get("/form-new",function (){
+        return view("admin.form.new");
+    })->name("admin.form.new");
+});
 
 
 Route::get('/home', [HomeController::class, "homeViewV1"])->name('home.page1');
