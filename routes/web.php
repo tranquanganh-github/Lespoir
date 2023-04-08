@@ -4,6 +4,7 @@ use App\Http\Controllers\Fruitkha\CheckoutController;
 use App\Http\Controllers\Fruitkha\HomeController;
 use App\Http\Controllers\Fruitkha\NewController;
 use App\Http\Controllers\Fruitkha\OrderController;
+use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
 use App\Models\Cloundinary;
@@ -61,7 +62,9 @@ Route::get("order/data-table",function (){
    dd( \App\Models\User::find(1)->with(["carts"])->get()->toArray());
 });
 
-
+Route::get('/users', [UserController::class,"tableView"]);
+Route::get('/users/{id}', [UserController::class,"updateUser"]);
+//Route::post('/users/{id}', [UserController::class,"updateUser"]);
 
 Route::post("upload-image",function(\Illuminate\Http\Request $request){
 //$colud = new Cloundinary();
