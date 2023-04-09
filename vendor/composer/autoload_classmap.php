@@ -12,6 +12,7 @@ return array(
     'App\\Http\\Controllers\\Auth\\BaseAuthenController' => $baseDir . '/app/Http/Controllers/Auth/BaseAuthenController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
     'App\\Http\\Controllers\\Fruitkha\\CheckoutController' => $baseDir . '/app/Http/Controllers/Fruitkha/CheckoutController.php',
+    'App\\Http\\Controllers\\Fruitkha\\EmailController' => $baseDir . '/app/Http/Controllers/Fruitkha/EmailController.php',
     'App\\Http\\Controllers\\Fruitkha\\HomeController' => $baseDir . '/app/Http/Controllers/Fruitkha/HomeController.php',
     'App\\Http\\Controllers\\Fruitkha\\NewController' => $baseDir . '/app/Http/Controllers/Fruitkha/NewController.php',
     'App\\Http\\Controllers\\Fruitkha\\OrderController' => $baseDir . '/app/Http/Controllers/Fruitkha/OrderController.php',

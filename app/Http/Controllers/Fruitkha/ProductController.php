@@ -82,16 +82,16 @@ public function store(Request $request)
 {
     $validatedData = $request->validate([
         'name' => 'required|max:255',
-        'amount' => 'required|integer|min:0',
+        'quantity' => 'required|integer|min:0',
+        'status' => 'required|integer|min:0',
         'price' => 'required|numeric|min:0',
-        'description' => 'required',
     ]);
 
     $product = new Products;
     $product->name = $validatedData['name'];
-    $product->description = $validatedData['description'];
+    $product->status = $validatedData['status'];
     $product->price = $validatedData['price'];
-    $product->price = $validatedData['quantity'];
+    $product->quantity = $validatedData['quantity'];
     $product->save();
     return redirect()->route('products.product-datatable');
 }
@@ -107,41 +107,43 @@ public function show(Products $product)
 /**
  * Show the form for editing products.
  */
-public function edit(Products $product)
+public function edit($productId)
 {
-    // $product = Products::find($product->id);
-    // dd($product->id);
+    $product = Products::findOrFail($productId);
     return view('admin.product-edit', compact('product'));
 }
-
 /**
  * Update the products in storage.
  */
-public function updateProduct(Request $request, Products $product)
+public function updateProduct(Request $request, $id)
 {
     $validatedData = $request->validate([
         'name' => 'required|max:255',
-        'amount' => 'required|integer|min:0',
+        'quantity' => 'required|integer|min:0',
+        'status' => 'required|integer|min:0',
         'price' => 'required|numeric|min:0',
-        'description' => 'required',
     ]);
-
+    $product = Products::find($id);
+    // dd($validatedData);
     if (count(array_filter($validatedData)) > 0) {
         $product->name = $validatedData['name'];
         $product->price = $validatedData['price'];
-        $product->amount = $validatedData['amount'];
-        $product->description = $validatedData['description'];
+        $product->quantity = $validatedData['quantity'];
+        $product->status = $validatedData['status'];
         $product->save();
+        dd($product);
     }
+    return redirect()->route('product-datatable');
     
 }
 
 /**
  * Remove the products from storage.
  */
-public function destroy(Products $products)
+public function destroy($id)
 {
-    $products->delete();
+    $product = Products::find($id);
+    $product->delete();
     return redirect()->route('product-datatable');
 }
     function listProductsAdmin(){

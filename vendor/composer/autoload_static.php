@@ -530,6 +530,7 @@ class ComposerStaticInitd00bb3cb58869f11b66b7a2bf8fb4604
         'App\\Http\\Controllers\\Auth\\BaseAuthenController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/BaseAuthenController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
         'App\\Http\\Controllers\\Fruitkha\\CheckoutController' => __DIR__ . '/../..' . '/app/Http/Controllers/Fruitkha/CheckoutController.php',
+        'App\\Http\\Controllers\\Fruitkha\\EmailController' => __DIR__ . '/../..' . '/app/Http/Controllers/Fruitkha/EmailController.php',
         'App\\Http\\Controllers\\Fruitkha\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/Fruitkha/HomeController.php',
         'App\\Http\\Controllers\\Fruitkha\\NewController' => __DIR__ . '/../..' . '/app/Http/Controllers/Fruitkha/NewController.php',
         'App\\Http\\Controllers\\Fruitkha\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Fruitkha/OrderController.php',
