@@ -9,19 +9,18 @@ use App\Models\User;
 class UserController extends Controller
 {
 
- function tableView(){
-    $user=new AuthRepository();
-    $users=$user->getAllOfUser();
-    return view("users",compact("users"));
- }
+     function tableView(){
+        $user = new AuthRepository();
+        $users = $user->getAllOfUser();
+        return view("users",compact("users"));
+     }
 
 
- function updateUser(Request $request){
-   $id = $request->id;
-   $users=new AuthRepository();
-   $users->update($id);
-   return redirect('/users');
-}
-
+     function updateUser(Request $request){
+       $id = $request->id;
+       $users = new AuthRepository();
+       $users->update($id);
+       return redirect('/users');
+    }
 
 }

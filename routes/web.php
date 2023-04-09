@@ -8,7 +8,9 @@ use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
 use App\Http\Enum\Status;
+use App\Http\Repository\AuthRepository;
 use App\Models\Cloundinary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -70,8 +72,23 @@ Route::group(["prefix"=>"/admin"], function () {
     })->name("admin.table.orders");
 
     Route::get("/table-users",function (){
-        return view("admin.table.users");
+        $user = new AuthRepository();
+        $users = $user->getAllOfUser();
+        return view("admin.table.users", compact("users"));
     })->name("admin.table.users");
+
+    Route::get("/form-user",function (Request $request){
+        $user = User::find($request->id);
+        return view("admin.form.user", compact("user"));
+    })->name('admin.form.user');
+
+    Route::post("/table-users", function (Request $request){
+        $user = User::find($request->id);
+        $user->update($request->all());
+        $AuthRes = new AuthRepository();
+        $users = $AuthRes->getAllOfUser();
+        return view("admin.table.users", compact("users"));
+    })->name('admin.form.user.update');
 
     Route::get("/table-news",function (){
         return view("admin.table.news");
@@ -85,9 +102,9 @@ Route::group(["prefix"=>"/admin"], function () {
         return view("admin.form.order");
     })->name("admin.form.order");
 
-    Route::get("/form-user",function (){
-        return view("admin.form.user");
-    })->name("admin.form.user");
+//    Route::get("/form-user",function (){
+//        return view("admin.form.user");
+//    })->name("admin.form.user");
 
     Route::get("/form-new",function (){
         return view("admin.form.new");
@@ -119,7 +136,7 @@ Route::post('/update-cart', [ProductController::class,"update"])->name('cart.upd
 
 Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
-Route::get('/users', [UserController::class,"tableView"]);
+//Route::get('/users', [UserController::class,"tableView"]);
 Route::get('/users/{id}', [UserController::class,"updateUser"]);
 //Route::post('/users/{id}', [UserController::class,"updateUser"]);
 

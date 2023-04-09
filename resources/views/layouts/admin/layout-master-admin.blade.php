@@ -162,7 +162,7 @@
                     <ul aria-expanded="false">
                         <li><a href="{{route("admin.form.product")}}">Product</a></li>
                         <li><a href="{{route("admin.form.order")}}">Order</a></li>
-                        <li><a href="{{route("admin.form.user")}}">User</a></li>
+                        <li><a href="">User</a></li>
                         <li><a href="{{route("admin.form.new")}}">New</a></li>
                     </ul>
                 </li>
