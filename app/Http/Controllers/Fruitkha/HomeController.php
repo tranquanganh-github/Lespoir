@@ -52,5 +52,11 @@ class HomeController extends Controller
             'updated_at' => Carbon::now()
         );
         Contacts::insert($ContactInfo);
+    function dashBoard(){
+        return view('admin.Dashborad.dashboard');
+    }
+    function calendarView(){
+        return view("admin.app.calendar");
+>>>>>>> dev
     }
 }

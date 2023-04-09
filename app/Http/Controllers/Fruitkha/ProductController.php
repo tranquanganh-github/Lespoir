@@ -63,4 +63,11 @@ class ProductController extends Controller
             }
         }
     }
+
+    function listProductsAdmin(){
+        return view("admin.table.products");
+    }
+    function createProductView(){
+        return view("admin.form.product");
+    }
 }

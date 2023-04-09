@@ -16,4 +16,11 @@ class NewController extends Controller
         return view('client.new.single');
     }
 
+    function listNewsAdmin(){
+        return view("admin.table.news");
+    }
+
+    function createNewView(){
+        return view("admin.form.new");
+    }
 }
