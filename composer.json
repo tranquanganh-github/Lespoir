@@ -11,7 +11,11 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+<<<<<<< HEAD
         "laravelcollective/html": "*"
+=======
+        "srmklive/paypal": "~1.0"
+>>>>>>> 28cbf7a26a093ec43e85df702b3428966f25dfdc
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

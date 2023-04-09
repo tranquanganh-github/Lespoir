@@ -3,10 +3,34 @@ let confirm = "true";
 function order(event){
     event.preventDefault();
 
-    showLoad();
+
     var data =getData();
+    if (data.carts.length <= 0){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'SYou have no products in your shopping cart!',
+        })
+    }else{
+        showLoad();
     sendAjax(CheckoutUrl,data);
+    }
 }
+ $("form[name=paypal]").submit(function (e){
+    e.preventDefault();
+   var data = getData();
+    if (data.carts.length <= 0){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'SYou have no products in your shopping cart!',
+        })
+    }else{
+        showLoad();
+        ajaxPaypal(PayPalCheckoutUrl,data);
+    }
+});
+
 
 function alertMethod(message,icon){
     Swal.fire({
@@ -85,5 +109,36 @@ function sendAjax(url,data){
         hiddenLoad();
         alertMethod("Error System", "error");
     },
+    });
+}
+function ajaxPaypal(url,data){
+
+    $.ajax({
+        type: "POST",
+        url:url,
+        data: data,
+        dataType: "json",
+        encode: true,
+        success:  function (data) {
+            hiddenLoad();
+            switch (data.status) {
+                case STATUS_SUCCESS:
+                        window.location.href = data.data.paypal_link;
+                    break;
+                case STATUS_FAIL:
+                    alertMethod(data.message, "error");
+                    break;
+                case STATUS_MISS_DATA:
+                    alertMethod(data.message, "warning");
+                    break;
+                default:
+                    alertMethod("Error System", "error");
+                    break;
+            }
+        },
+        error: function (){
+            hiddenLoad();
+            alertMethod("Error System", "error");
+        },
     });
 }

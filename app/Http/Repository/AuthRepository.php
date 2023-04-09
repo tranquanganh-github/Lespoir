@@ -11,14 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthRepository
 {
-    protected $hash;
-
-
-    public function __construct(HasherContract $hasher)
-    {
-        $this->hasher = $hasher;
-
-    }
 
     public function createUser($data, $password)
     {
@@ -55,5 +47,25 @@ class AuthRepository
             return false;
         }
         return $token;
+    }
+
+
+    public function getAllOfUser()
+    {
+        $users = User::all();
+        return $users;
+    }
+
+
+    public function update($id)
+    {
+        $user = User::find($id);
+        if($user->status==1){
+            $user->status = 0;
+        }else if($user->status==0){
+            $user->status = 1;
+        }
+        $user->save();
+        return $user;
     }
 }
