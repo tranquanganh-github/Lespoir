@@ -7,26 +7,31 @@
     <h1>Single Product</h1>
 @endsection
 @section('content-page')
+<?php
+    $cartItem = isset(session()->get('cart')[$product['id']]) ? session()->get('cart')[$product['id']] : null;
+    $quantity = is_null($cartItem) ? 1 : $cartItem["quantity"] ;
+?>
     <!-- single product -->
     <div class="single-product mt-150 mb-150">
         <div class="container">
             <div class="row">
                 <div class="col-md-5">
                     <div class="single-product-img">
-                        <img src="assets/img/products/product-img-5.jpg" alt="">
+                        <img src="{{$product['thumbnail']}}" alt="">
                     </div>
                 </div>
                 <div class="col-md-7">
                     <div class="single-product-content">
-                        <h3>Green apples have polyphenols</h3>
-                        <p class="single-product-pricing"><span>Per Kg</span> $50</p>
+                        <h3>{{ $product['name'] }} have polyphenols</h3>
+                        <p class="single-product-pricing"><span>Per Kg</span>$ {{ $product['price'] }}</p>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta sint dignissimos, rem commodi cum voluptatem quae reprehenderit repudiandae ea tempora incidunt ipsa, quisquam animi perferendis eos eum modi! Tempora, earum.</p>
                         <div class="single-product-form">
-                            <form action="index.html">
-                                <input type="number" placeholder="0">
+                            <form action="{{ route("addToCart",['id'=>$product['id']]) }}">
+                                <input type="number" placeholder="0" value="{{$quantity}}" name="quantity">
+                                <input type="hidden" name="id" value="{{$product['id']}}"></input>
+                                <button type="submit" style="    margin-left: 36px;" class="mb-lg-n1 btn btn-outline-dark">Add to Cart</button>
+                                <p><strong>Categories: </strong>Fruits, Organic</p>
                             </form>
-                            <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            <p><strong>Categories: </strong>Fruits, Organic</p>
                         </div>
                         <h4>Share:</h4>
                         <ul class="product-share">
@@ -54,36 +59,18 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
+                @foreach ($products as $product)
+                    <div class="col-lg-4 col-md-6 text-center strawberry">
+                        <div class="single-product-item">
+                            <div class="product-image">
+                                <a href="{{ route("detail-product",['id'=>$product->id]) }}"><img src="{{ $product->thumbnail }}" alt=""></a>
+                            </div>
+                            <h3>{{ $product->name }}</h3>
+                            <p class="product-price"><span>Quantity:{{ $product->quantity }}</span> {{ $product->price }}$ </p>
+                            <a href="{{ route("addToCart",['id'=>$product->id]) }}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                         </div>
-                        <h3>Strawberry</h3>
-                        <p class="product-price"><span>Per Kg</span> 85$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-2.jpg" alt=""></a>
-                        </div>
-                        <h3>Berry</h3>
-                        <p class="product-price"><span>Per Kg</span> 70$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 offset-lg-0 offset-md-3 text-center">
-                    <div class="single-product-item">
-                        <div class="product-image">
-                            <a href="single-product.html"><img src="assets/img/products/product-img-3.jpg" alt=""></a>
-                        </div>
-                        <h3>Lemon</h3>
-                        <p class="product-price"><span>Per Kg</span> 35$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

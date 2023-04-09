@@ -26,15 +26,14 @@
             </div>
             <div class="row product-lists">
             @foreach ($products as $product)
-            
                 <div class="col-lg-4 col-md-6 text-center strawberry">
                     <div class="single-product-item">
                         <div class="product-image">
-                            <a href="single-product.html"><img src="{{ $product->thumbnail }}" alt=""></a>
+                            <a href="{{ route("detail-product",['id'=>$product->id]) }}"><img src="{{ $product->thumbnail }}" alt=""></a>
                         </div>
                         <h3>{{ $product->name }}</h3>
                         <p class="product-price"><span>Quantity:{{ $product->quantity }}</span> {{ $product->price }}$ </p>
-                        <a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                        <a href="{{ route("addToCart",['id'=>$product->id]) }}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                     </div>
                 </div>
            
@@ -92,17 +91,18 @@
                 </div> -->
            
             <div class="row">
-                <div class="col-lg-12 text-center">
+                <div class="col-lg-12 d-flex justify-content-center">
                     <div class="pagination-wrap">
-                        <ul>
+{{--                        <ul>--}}
                             <!-- <li><a href="#">Prev</a></li>
                             <li><a href="#">1</a></li>
                             <li><a class="active" href="#">2</a></li>
                             <li><a href="#">3</a></li>
                             <li><a href="#">Next</a></li> -->
-
-                          <li>{{$products->links()}}</li>  
-                        </ul>
+                            @include('client.pagination.default', ['paginator' => $products])
+{{--                          <li>{{$products->links()}}</li>  --}}
+{{--                        </ul>--}}
+                    </div>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,10 @@ class Orders extends Model
         "address",
         "code",
         "cart_id",
-        "status"
+        "name",
+        "email",
+        "status",
+        "message",
     ];
 
     public function order_details(){

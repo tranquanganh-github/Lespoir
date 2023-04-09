@@ -35,35 +35,35 @@ class BaseAuthenController extends Controller
     function responseExistAccount(){
       return  response()->json([
             'status'=> STATUS_MISS_DATA,
-            'message'=> 'Tài khoản đã tồn tại!',
+            'message'=> 'Account already exists!',
             'data'=>[],
         ]);
     }
     function responseCreatedUserSuccessful($data = []){
       return  response()->json([
             'status'=> STATUS_SUCCESS,
-            'message'=> 'Tạo người dùng thành công',
+            'message'=> 'Successful user creation',
             'data'=>$data
         ]);
     }
     function respomseCreatedUserFail($data = []){
         return  response()->json([
             'status'=> STATUS_FAIL,
-            'message'=> 'Tạo người dùng thất bại',
+            'message'=> 'User creation failed',
             'data'=>$data
         ]);
     }
     function respomseLoginSuccess($data = []){
         return  response()->json([
             'status'=> STATUS_SUCCESS,
-            'message'=> 'Đăng nhập thành công',
+            'message'=> 'Logged in successfully',
             'data'=>$data
         ]);
     }
     function respomseLoginFail($data = []){
         return  response()->json([
             'status'=> STATUS_FAIL,
-            'message'=> 'Sai tên hoặc sai tài khoản',
+            'message'=> 'Wrong name or wrong account',
             'data'=>$data
         ]);
     }

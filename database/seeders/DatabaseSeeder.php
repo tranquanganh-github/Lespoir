@@ -135,7 +135,6 @@ class DatabaseSeeder extends Seeder
                 'created_at'=>Carbon::now(),
             ],
         ]);
-   
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
