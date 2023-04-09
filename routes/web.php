@@ -92,10 +92,14 @@ Route::get('/add-to-cart/{id}', [ProductController::class, "addToCart"])->name('
 
 Route::post('/update-cart', [ProductController::class, "update"])->name('cart.update');
 
-Route::post('/remove-form-cart', [ProductController::class, "delete"])->name('cart.delete');
+Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
 
-Route::get('/users', [UserController::class, "tableView"]);
-Route::get('/users/{id}', [UserController::class, "updateUser"]);
+Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
+
+Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
+
+Route::get('/users', [UserController::class,"tableView"]);
+Route::get('/users/{id}', [UserController::class,"updateUser"]);
 //Route::post('/users/{id}', [UserController::class,"updateUser"]);
 
 
