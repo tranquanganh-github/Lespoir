@@ -33,4 +33,10 @@ class HomeController extends Controller
         $products=$this->productRepo->getTop3Product();
         return $products;
     }
+    function dashBoard(){
+        return view('admin.Dashborad.dashboard');
+    }
+    function calendarView(){
+        return view("admin.app.calendar");
+    }
 }
