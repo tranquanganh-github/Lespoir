@@ -109,6 +109,8 @@ Route::get('/product/{id}', [ProductController::class, "detailProduct"])->name('
 
 Route::get('/contact-us', [HomeController::class, "contactView"])->name('contact');
 
+Route::post('/add-contact',[HomeController::class, "insertContact"]);
+
 Route::get('/news', [NewController::class, "listNews"])->name('new');
 
 Route::get('/news/{id}', [NewController::class, "detailNew"])->name('detail-new');
