@@ -63,18 +63,8 @@ Route::group(["prefix" => "/admin"], function () {
         return view("admin.table.users", compact("users"));
     })->name("admin.table.users");
 
-    Route::get("/form-user",function (Request $request){
-        $user = User::find($request->id);
-        return view("admin.form.user", compact("user"));
-    })->name('admin.form.user');
-
-    Route::post("/table-users", function (Request $request){
-        $user = User::find($request->id);
-        $user->update($request->all());
-        $AuthRes = new AuthRepository();
-        $users = $AuthRes->getAllOfUser();
-        return view("admin.table.users", compact("users"));
-    })->name('admin.form.user.update');
+    Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
+    Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
 
     Route::get("/table-news",function (){
         return view("admin.table.news");
@@ -85,12 +75,14 @@ Route::group(["prefix" => "/admin"], function () {
 
     Route::get("/form-order",[OrderController::class,"createOrderView"])->name("admin.form.order");
 
-    Route::get("/form-user", [UserController::class,"editViewUser"])->name("admin.form.user");
-
     Route::get("/form-new", [NewController::class,"createNewView"])->name("admin.form.new");
 
     Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
+    Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
     Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
+
+    Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+
 });
 
 
@@ -123,11 +115,6 @@ Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('a
 Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
 
 Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
-
-Route::get('/users', [UserController::class,"tableView"]);
-Route::get('/users/{id}', [UserController::class,"updateUser"]);
-//Route::post('/users/{id}', [UserController::class,"updateUser"]);
-
 
 Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();
