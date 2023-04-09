@@ -56,16 +56,13 @@ class AuthRepository
         return $users;
     }
 
+    public function getUserById($id){
+        return User::whereId($id);
+    }
 
-    public function update($id)
+    public function update($id,$data)
     {
-        $user = User::find($id);
-        if($user->status==1){
-            $user->status = 0;
-        }else if($user->status==0){
-            $user->status = 1;
-        }
-        $user->save();
+        $user = User::find($id)->update($data);
         return $user;
     }
 }

@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Repository;
+
+use App\Models\Contacts;
 use App\Models\Products;
 use Illuminate\Cache\RateLimiting\Limit;
-
+use Illuminate\Http\Request;
+use Carbon\Carbon;
 class ProductRepository
 {
     function getTop3Product()
@@ -29,4 +32,5 @@ class ProductRepository
         $products=Products::whereIn("id",$ids)->get();
         return $products;
     }
+
 }

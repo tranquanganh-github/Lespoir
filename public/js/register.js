@@ -159,11 +159,11 @@ $(function () {
             },
             first_name: {
                 required: "Last Name cannot be empty",
-                name: "malformed",
+                full_name: "malformed",
             },
             last_name: {
                 required: "Name cannot be blank",
-                name: "malformed",
+                full_name: "malformed",
             },
 
         },
