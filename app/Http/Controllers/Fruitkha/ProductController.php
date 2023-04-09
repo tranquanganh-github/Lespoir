@@ -63,7 +63,7 @@ class ProductController extends Controller
             }
         }
     }
-
+    
 public function index(){
     $products = Products::all();
     return view('admin.product-datatable', compact('products'))->with('json', $products->toJson());
@@ -144,4 +144,10 @@ public function destroy(Products $products)
     $products->delete();
     return redirect()->route('product-datatable');
 }
+    function listProductsAdmin(){
+        return view("admin.table.products");
+    }
+    function createProductView(){
+        return view("admin.form.product");
+    }
 }
