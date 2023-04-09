@@ -9,7 +9,9 @@ use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
 use App\Http\Enum\Status;
+use App\Http\Repository\AuthRepository;
 use App\Models\Cloundinary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,9 +52,33 @@ Route::group(["prefix" => "/admin"], function () {
 
     Route::get("/table-orders",[OrderController::class,"listOrdersAdmin"])->name("admin.table.orders");
 
+
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
 
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
+
+    Route::get("/table-users",function (){
+        $user = new AuthRepository();
+        $users = $user->getAllOfUser();
+        return view("admin.table.users", compact("users"));
+    })->name("admin.table.users");
+
+    Route::get("/form-user",function (Request $request){
+        $user = User::find($request->id);
+        return view("admin.form.user", compact("user"));
+    })->name('admin.form.user');
+
+    Route::post("/table-users", function (Request $request){
+        $user = User::find($request->id);
+        $user->update($request->all());
+        $AuthRes = new AuthRepository();
+        $users = $AuthRes->getAllOfUser();
+        return view("admin.table.users", compact("users"));
+    })->name('admin.form.user.update');
+
+    Route::get("/table-news",function (){
+        return view("admin.table.news");
+    })->name("admin.table.news");
 
     //Form
     Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");

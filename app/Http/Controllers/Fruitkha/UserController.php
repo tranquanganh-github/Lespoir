@@ -10,12 +10,11 @@ use App\Models\User;
 class UserController extends Controller
 {
 
-    function tableView()
-    {
+   function tableView(){
         $user = new AuthRepository();
         $users = $user->getAllOfUser();
-        return view("users", compact("users"));
-    }
+        return view("users",compact("users"));
+     }
 
 
     function updateUser(Request $request)
@@ -29,6 +28,7 @@ class UserController extends Controller
     function listUsersAdmin()
     {
         return view("admin.table.users");
+
     }
 
     function editViewUser(Request $request){
