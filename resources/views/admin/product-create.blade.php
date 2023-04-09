@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('Product-form', 'store products')
 @section('form')
-<form method="GET" action="{{ route('admin.product-store') }}" enctype="multipart/form-data">
+<form method="GET" action="{{ route('store') }}" enctype="multipart/form-data">
     @csrf
     <label>Name</label>
     <input type="text" name="name" value="{{ $product->name }}">

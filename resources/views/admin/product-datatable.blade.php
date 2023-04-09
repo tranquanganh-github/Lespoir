@@ -41,7 +41,17 @@
                     <td>{{ $product->status }}</td>
                     <td>{{ $product->created_at }}</td>
                     <td>{{ $product->updated_at }}</td>
-                    <button type="submit" name="delete">
+                    <td>
+                        <form action="{{ route('edit', $product->id) }}" method="GET">
+                            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                        </form>
+                        <form action="{{ route('delete', $product->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                    
                 </tr>
             @endforeach
         </tbody>

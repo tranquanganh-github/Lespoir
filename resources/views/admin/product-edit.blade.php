@@ -2,7 +2,8 @@
 @section('Product-form', 'Create products')
 @section('form')
     <h1>Welcome to my homepage2!</h1>
-    <form method="POST" action="{{ route('admin.product-edit', $product->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('edit', $product->id) }}" enctype="multipart/form-data">
+
         @csrf
         @method('PUT')
         <label>Name</label>

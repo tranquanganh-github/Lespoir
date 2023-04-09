@@ -82,6 +82,7 @@ Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 })->name('updateload-img');
 
 Route::get('/admin/product-datatable',[ProductController::class, 'index'])->name('product-datatable');
-Route::get('/admin/product-edit',[ProductController::class, 'edit'])->name('admin.product-edit');
-Route::post('/admin/product-store', [ProductController::class, 'store'])->name('admin.product-store');
-Route::get('/admin/product-create', [ProductController::class,'create'])->name('product-create');
+Route::get('/admin/product-edit',[ProductController::class, 'edit'])->name('edit');
+Route::post('/admin/product-store', [ProductController::class, 'store'])->name('store');
+Route::get('/admin/product-create', [ProductController::class,'create'])->name('create');
+Route::delete('/admin/products/{id}', [ProductController::class,'destroy'])->name('delete');
