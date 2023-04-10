@@ -71,7 +71,7 @@ public function index(){
 public function create()
 {
     $product = new Products;
-    return view('admin.product-create', ['product' => $product], compact('product'));
+    return view('admin.create', ['product' => $product], compact('product'));
 }
 
 
@@ -110,7 +110,7 @@ public function show(Products $product)
 public function edit($productId)
 {
     $product = Products::findOrFail($productId);
-    return view('admin.product-edit', compact('product'));
+    return view('admin.edit', compact('product'));
 }
 /**
  * Update the products in storage.
@@ -133,7 +133,7 @@ public function updateProduct(Request $request, $id)
         $product->save();
         dd($product);
     }
-    return redirect()->route('product-datatable');
+    return redirect()->route('admin.product-datatable');
     
 }
 
