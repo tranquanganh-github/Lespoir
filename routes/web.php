@@ -8,9 +8,7 @@ use App\Http\Controllers\Fruitkha\OrderController;
 use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
-use App\Http\Enum\Status;
-use App\Models\Cloundinary;
-use Illuminate\Http\Request;
+use App\Http\Repository\AuthRepository;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,7 +34,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
     Route::get("/payment-message", [CheckoutController::class, "viewMessage"])->name("check-out-status");
 });
-Route::group(["prefix" => "/admin"], function () {
+Route::group(["prefix" => "/admin","middleware"=>"admin"], function () {
     //Dashboard
     Route::get('/dashboard', [HomeController::class, "dashBoard"])->name("admin.dashboard");
     //Email
@@ -46,25 +44,48 @@ Route::group(["prefix" => "/admin"], function () {
     //App
     Route::get("/app-calendar", [HomeController::class, "calendarView"])->name("admin.app.calendar");
     //Table
-    Route::get("/table-products", [ProductController::class,"listProductsAdmin"])->name("admin.table.products");
 
     Route::get("/table-orders",[OrderController::class,"listOrdersAdmin"])->name("admin.table.orders");
 
+
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
+    Route::get("/user/update-role", [UserController::class,"updateRoleUser"])->name("admin.user.update.role");
 
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
 
+
+    Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
+    Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
+
+    Route::get("/table-news",function (){
+        return view("admin.table.news");
+    })->name("admin.table.news");
+
     //Form
-    Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");
 
     Route::get("/form-order",[OrderController::class,"createOrderView"])->name("admin.form.order");
-
-    Route::get("/form-user", [UserController::class,"editViewUser"])->name("admin.form.user");
 
     Route::get("/form-new", [NewController::class,"createNewView"])->name("admin.form.new");
 
     Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
+    Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
     Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
+
+    Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+
+
+    Route::get('/table-products',[ProductController::class, 'index'])->name("admin.table.products");
+
+    Route::get('/table-products-update',[ProductController::class, 'edit'])->name('admin.table.products.update');
+    Route::post('/table-products-update', [ProductController::class, 'updateProduct'])->name('admin.table.products.update');
+
+    Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");
+
+//    Route::get('/form-product', [ProductController::class,'create'])->name('admin.table.products.create');
+    Route::post('/form-product', [ProductController::class, 'store'])->name('admin.table.products.create');
+
+    Route::get('/product-update', [ProductController::class,'changeStatus'])->name('admin.product.changestatus');
+
 });
 
 
@@ -92,14 +113,10 @@ Route::get('/add-to-cart/{id}', [ProductController::class, "addToCart"])->name('
 
 Route::post('/update-cart', [ProductController::class, "update"])->name('cart.update');
 
-Route::post('/remove-form-cart', [ProductController::class, "delete"])->name('cart.delete');
+Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
 
-Route::get('/users', [UserController::class, "tableView"]);
-Route::get('/users/{id}', [UserController::class, "updateUser"]);
-//Route::post('/users/{id}', [UserController::class,"updateUser"]);
+Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
+
+Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
 
-Route::post("upload-image", function (\Illuminate\Http\Request $request) {
-//$colud = new Cloundinary();
-//dd($colud->uploadImage());
-})->name('updateload-img');

@@ -36,7 +36,7 @@ class OrderRepository
                 "address" => $data["address"],
                 "code" => $data["phone"],
                 "cart_id" => $data["cart_id"],
-                "message" => $data["message"],
+                "message" => isset($data["message"]) ? $data["message"] : "null",
                 "name" => $data["name"],
                 "email" => $data["email"],
                 "status" => Status::WAITING,

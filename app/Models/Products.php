@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Products extends Model
 {
     use HasFactory;
-    protected $table = "products";
+    protected $products = "products";
     public $timestamps = true;
     protected $fillable = [
         "thumbnail",
@@ -16,6 +16,8 @@ class Products extends Model
         "quantity",
         "price",
         "status",
+        "created_at",
+        "updated_at"
     ];
 
     public function order_details(){
@@ -23,5 +25,14 @@ class Products extends Model
     }
     public function cart_items(){
         return $this->hasMany(CartItem::class,"cart_id","id");
+    }
+    public function  statusString(){
+        switch ($this->status){
+            case 1:
+                return "Active";
+            case 0:
+                return "Delete";
+
+        }
     }
 }

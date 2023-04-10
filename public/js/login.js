@@ -37,7 +37,7 @@ $form.validate({
                     case STATUS_SUCCESS:
                         alertMethod(data.message, "success");
                         // setCookie("token",data.data.token,30);
-                        hiddenLoad();
+
                         setTimeout(function(){
                             window.location.href = data.data.redirect;
                         },1000);
@@ -50,6 +50,7 @@ $form.validate({
                         alertMethod("Error System", "warning");
                         break;
                 }
+                hiddenLoad();
             },error:function (){
                 hiddenLoad();
                 alertMethod("Error System", "warning");
