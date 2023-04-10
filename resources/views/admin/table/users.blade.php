@@ -42,7 +42,7 @@
                                     <th scope="col">Email</th>
                                     <th scope="col">Address</th>
                                     <th scope="col">Phone</th>
-                                    <th scope="col">isBlocked</th>
+                                    <th scope="col">Roles</th>
                                     <th scope="col">Action</th>
                                 </tr>
                                 </thead>
@@ -55,11 +55,33 @@
                                         <td>{{$user->email}}</td>
                                         <td>{{$user->address}}</td>
                                         <td>{{$user->phone}}</td>
-                                        <td>{{$user->status}}</td>
-                                        @if($user->status ==0)
-                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>1])}}">UnBlock</a></td>
+                                        <td>
+                                            <div class="basic-form" role="group">
+                                                <form>
+                                                    <div class="form-group">
+                                                        <div class="form-check mb-3">
+                                                            <label class="form-check-label">
+                                                                <a href="{{route("admin.user.update.role",["id"=>$user->id,"role_id"=>1])}}">
+                                                                    <input type="checkbox" disabled {{in_array(1,$user->roles)?"checked":""}}  class="form-check-input" value="">Admin
+                                                                </a>
+                                                            </label>
+                                                        </div>
+                                                        <div class="form-check mb-3">
+                                                            <label class="form-check-label">
+                                                                <a href="{{route("admin.user.update.role",["id"=>$user->id,"role_id"=>2])}}">
+                                                                <input type="checkbox" disabled  class="form-check-input" {{in_array(2,$user->roles)?"checked":""}} value="">User
+                                                                </a>
+                                                            </label>
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        @if($user->status ==1)
+                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>0])}}">UnBlock</a></td>
                                         @else
-                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>0])}}">Block</a></td>
+                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>1])}}">Block</a></td>
                                         @endif
                                         <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route("admin.form.user",['id'=>$user->id]) }}">Edit</a></td>
                                     </tr>

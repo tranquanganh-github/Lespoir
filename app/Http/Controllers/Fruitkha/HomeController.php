@@ -7,6 +7,8 @@ use App\Http\Repository\ProductRepository;
 use Illuminate\Http\Request;
 use App\Models\Contacts;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+
 class HomeController extends Controller
 {
     protected $productRepo;
