@@ -9,7 +9,9 @@ use App\Http\Controllers\Fruitkha\UserController;
 use App\Http\Controllers\Fruitkha\ProductController;
 use App\Http\Controllers\Fruitkha\ShopController;
 use App\Http\Enum\Status;
+use App\Http\Repository\AuthRepository;
 use App\Models\Cloundinary;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -50,21 +52,37 @@ Route::group(["prefix" => "/admin"], function () {
 
     Route::get("/table-orders",[OrderController::class,"listOrdersAdmin"])->name("admin.table.orders");
 
+
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
 
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
+
+    Route::get("/table-users",function (){
+        $user = new AuthRepository();
+        $users = $user->getAllOfUser();
+        return view("admin.table.users", compact("users"));
+    })->name("admin.table.users");
+
+    Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
+    Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
+
+    Route::get("/table-news",function (){
+        return view("admin.table.news");
+    })->name("admin.table.news");
 
     //Form
     Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");
 
     Route::get("/form-order",[OrderController::class,"createOrderView"])->name("admin.form.order");
 
-    Route::get("/form-user", [UserController::class,"editViewUser"])->name("admin.form.user");
-
     Route::get("/form-new", [NewController::class,"createNewView"])->name("admin.form.new");
 
     Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
+    Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
     Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
+
+    Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+
 });
 
 
@@ -82,6 +100,8 @@ Route::get('/product/{id}', [ProductController::class, "detailProduct"])->name('
 
 Route::get('/contact-us', [HomeController::class, "contactView"])->name('contact');
 
+Route::post('/add-contact',[HomeController::class, "insertContact"]);
+
 Route::get('/news', [NewController::class, "listNews"])->name('new');
 
 Route::get('/news/{id}', [NewController::class, "detailNew"])->name('detail-new');
@@ -90,12 +110,11 @@ Route::get('/add-to-cart/{id}', [ProductController::class, "addToCart"])->name('
 
 Route::post('/update-cart', [ProductController::class, "update"])->name('cart.update');
 
-Route::post('/remove-form-cart', [ProductController::class, "delete"])->name('cart.delete');
+Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
 
-Route::get('/users', [UserController::class, "tableView"]);
-Route::get('/users/{id}', [UserController::class, "updateUser"]);
-//Route::post('/users/{id}', [UserController::class,"updateUser"]);
+Route::post('/update-cart', [ProductController::class,"update"])->name('cart.update');
 
+Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
 Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();
