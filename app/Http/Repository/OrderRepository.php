@@ -71,11 +71,15 @@ class OrderRepository
 
     function getOrderById($id)
     {
-        return Orders::find($id)->with(["order_details.product"]);
+        return Orders::whereId($id)->with(["order_details.product"]);
     }
 
     function updateOrderById($id, $data)
     {
         return Orders::find($id)->update($data);
+    }
+
+    function getAllOrder(){
+        return Orders::all();
     }
 }

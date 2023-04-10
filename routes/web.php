@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Fruitkha\CheckoutController;
+use App\Http\Controllers\Fruitkha\EmailController;
 use App\Http\Controllers\Fruitkha\HomeController;
 use App\Http\Controllers\Fruitkha\NewController;
 use App\Http\Controllers\Fruitkha\OrderController;
@@ -24,52 +25,37 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+require __DIR__ . '/auth.php';
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-//this view is create by vue
-//trinh huy
-//new
-
-
-require __DIR__ . '/auth.php';
 
 Route::group(["middleware" => "auth"], function () {
     Route::get('/check-out', [CheckoutController::class, "checkOutView"])->name('check-out');
     Route::post('/check-out', [CheckoutController::class, "paymentOnDelivery"])->name('payment.delivery');
     Route::post('/check-paypal', [CheckoutController::class, "paymentOnPaypal"])->name('payment.paypal');
     Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
-    Route::get("/payment-message",[CheckoutController::class,"viewMessage"])->name("check-out-status");
+    Route::get("/payment-message", [CheckoutController::class, "viewMessage"])->name("check-out-status");
 });
-Route::group(["prefix"=>"/admin"], function () {
+Route::group(["prefix" => "/admin"], function () {
     //Dashboard
-    Route::get('/dashboard', function () {
-        return view('admin.Dashborad.dashboard');
-    })->name("admin.dashboard");
+    Route::get('/dashboard', [HomeController::class, "dashBoard"])->name("admin.dashboard");
     //Email
-    Route::get('/email-inobox', function () {
-        return view('admin.email.inbox');
-    })->name("admin.email.inbox");
-    Route::get('/email-read', function () {
-        return view('admin.email.read');
-    })->name("admin.email.read");
-    Route::get('/email-compose', function () {
-        return view('admin.email.compose');
-    })->name("admin.email.compose");
+    Route::get('/email-inobox', [EmailController::class, "inboxView"])->name("admin.email.inbox");
+    Route::get('/email-read', [EmailController::class, "readView"])->name("admin.email.read");
+    Route::get('/email-compose', [EmailController::class, "composeView"])->name("admin.email.compose");
     //App
-    Route::get("/app-calendar",function (){
-        return view("admin.app.calendar");
-    })->name("admin.app.calendar");
+    Route::get("/app-calendar", [HomeController::class, "calendarView"])->name("admin.app.calendar");
     //Table
-    Route::get("/table-products",function (){
-        return view("admin.table.products");
-    })->name("admin.table.products");
+    Route::get("/table-products", [ProductController::class,"listProductsAdmin"])->name("admin.table.products");
 
-    Route::get("/table-orders",function (){
-        return view("admin.table.orders");
-    })->name("admin.table.orders");
+    Route::get("/table-orders",[OrderController::class,"listOrdersAdmin"])->name("admin.table.orders");
+
+
+    Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
+
+    Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
 
     Route::get("/table-users",function (){
         $user = new AuthRepository();
@@ -77,38 +63,26 @@ Route::group(["prefix"=>"/admin"], function () {
         return view("admin.table.users", compact("users"));
     })->name("admin.table.users");
 
-    Route::get("/form-user",function (Request $request){
-        $user = User::find($request->id);
-        return view("admin.form.user", compact("user"));
-    })->name('admin.form.user');
-
-    Route::post("/table-users", function (Request $request){
-        $user = User::find($request->id);
-        $user->update($request->all());
-        $AuthRes = new AuthRepository();
-        $users = $AuthRes->getAllOfUser();
-        return view("admin.table.users", compact("users"));
-    })->name('admin.form.user.update');
+    Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
+    Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
 
     Route::get("/table-news",function (){
         return view("admin.table.news");
     })->name("admin.table.news");
+
     //Form
-    Route::get("/form-product",function (){
-        return view("admin.form.product");
-    })->name("admin.form.product");
+    Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");
 
-    Route::get("/form-order",function (){
-        return view("admin.form.order");
-    })->name("admin.form.order");
+    Route::get("/form-order",[OrderController::class,"createOrderView"])->name("admin.form.order");
 
-//    Route::get("/form-user",function (){
-//        return view("admin.form.user");
-//    })->name("admin.form.user");
+    Route::get("/form-new", [NewController::class,"createNewView"])->name("admin.form.new");
 
-    Route::get("/form-new",function (){
-        return view("admin.form.new");
-    })->name("admin.form.new");
+    Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
+    Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
+    Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
+
+    Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+
 });
 
 
@@ -126,9 +100,15 @@ Route::get('/product/{id}', [ProductController::class, "detailProduct"])->name('
 
 Route::get('/contact-us', [HomeController::class, "contactView"])->name('contact');
 
+Route::post('/add-contact',[HomeController::class, "insertContact"]);
+
 Route::get('/news', [NewController::class, "listNews"])->name('new');
 
 Route::get('/news/{id}', [NewController::class, "detailNew"])->name('detail-new');
+
+Route::get('/add-to-cart/{id}', [ProductController::class, "addToCart"])->name('addToCart');
+
+Route::post('/update-cart', [ProductController::class, "update"])->name('cart.update');
 
 Route::get('/add-to-cart/{id}', [ProductController::class,"addToCart"])->name('addToCart');
 
@@ -136,13 +116,14 @@ Route::post('/update-cart', [ProductController::class,"update"])->name('cart.upd
 
 Route::post('/remove-from-cart', [ProductController::class,"delete"])->name('cart.delete');
 
-//Route::get('/users', [UserController::class,"tableView"]);
-Route::get('/users/{id}', [UserController::class,"updateUser"]);
-//Route::post('/users/{id}', [UserController::class,"updateUser"]);
-
-
-
 Route::post("upload-image", function (\Illuminate\Http\Request $request) {
 //$colud = new Cloundinary();
 //dd($colud->uploadImage());
 })->name('updateload-img');
+
+Route::get('/admin/product-datatable',[ProductController::class, 'index'])->name('product-datatable');
+Route::get('/products/{product}/edit',[ProductController::class, 'edit'])->name('edit');
+Route::get('/admin/product-store', [ProductController::class, 'store'])->name('store');
+Route::put('/admin/products/{id}', [ProductController::class, 'updateProduct'])->name('updateProduct');
+Route::get('/admin/product-create', [ProductController::class,'create'])->name('create');
+Route::delete('/admin/products/{id}', [ProductController::class,'destroy'])->name('delete');

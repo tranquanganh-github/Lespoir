@@ -29,6 +29,19 @@ class Orders extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,"user_id");
+        return $this->hasOne(User::class,"id","user_id");
+    }
+
+    public function  statusString(){
+        switch ($this->status){
+            case 1:
+                return "Paid";
+            case 0:
+                return "Delete";
+            case 4:
+                return "Waiting";
+            default:
+                return "Unknown";
+        }
     }
 }

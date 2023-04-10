@@ -6,6 +6,14 @@
     <link href="../admin/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
 @endsection
 @section("body")
+    <?php
+    $message = null;
+    $status = null;
+    if(session()->get("message_admin_user") && session()->get("status_massage")){
+        $message = session()->get("message_admin_user") ?? null;
+        $status = session()->get("status_massage") ?? null;
+    }
+    ?>
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
@@ -13,13 +21,17 @@
             </ol>
         </div>
     </div>
-
+    @if($message !== null && $status !== null)
+        <div class="{{$status}} alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button> <strong>{{$message}}</strong></div>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">Data Table</h4>
+                        <h4 class="card-title">Users</h4>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead >
@@ -45,9 +57,9 @@
                                         <td>{{$user->phone}}</td>
                                         <td>{{$user->status}}</td>
                                         @if($user->status ==0)
-                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="/users/{{$user->id}}">UnBlock</a></td>
+                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>1])}}">UnBlock</a></td>
                                         @else
-                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="/users/{{$user->id}}">Block</a></td>
+                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>0])}}">Block</a></td>
                                         @endif
                                         <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route("admin.form.user",['id'=>$user->id]) }}">Edit</a></td>
                                     </tr>
