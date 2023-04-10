@@ -26,4 +26,13 @@ class Products extends Model
     public function cart_items(){
         return $this->hasMany(CartItem::class,"cart_id","id");
     }
+    public function  statusString(){
+        switch ($this->status){
+            case 1:
+                return "Active";
+            case 0:
+                return "Delete";
+
+        }
+    }
 }

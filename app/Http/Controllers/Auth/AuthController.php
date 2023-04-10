@@ -54,7 +54,7 @@ class AuthController extends BaseAuthenController
         $isAuthenticated = $this->authRepository->checkAuthenticated($credentials);
 
         try {
-            if (is_null($isAuthenticated)) {
+            if (is_null($isAuthenticated) || $isAuthenticated === false) {
                 return $this->respomseLoginFail();
             }
         } catch (AuthenticationException $e) {

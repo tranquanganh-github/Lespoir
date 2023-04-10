@@ -32,5 +32,17 @@ class ProductRepository
         $products=Products::whereIn("id",$ids)->get();
         return $products;
     }
+    function getProductById($id){
+        return Products::whereId($id);
+    }
+    function updateProductById($id,$data){
+        return Products::whereId($id)->update($data);
+    }
+    function createProduct($data){
+        return Products::insert($data);
+    }
+    function getProductByName($name){
+        return Products::where("name","=",$name)->where("status",1);
+    }
 
 }

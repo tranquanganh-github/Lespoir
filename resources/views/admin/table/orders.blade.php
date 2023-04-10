@@ -32,7 +32,11 @@
             </ol>
         </div>
     </div>
-
+    @if($message !== null && $status !== null)
+        <div class="{{$status}} alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button> <strong>{{$message}}</strong></div>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -40,11 +44,6 @@
                     <div class="card-body">
                         <h4 class="card-title">Orders</h4>
                         <div class="table-responsive">
-                            @if($message !== null && $status !== null)
-                                <div class="{{$status}} alert-dismissible fade show">
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
-                                    </button> <strong>{{$message}}</strong></div>
-                            @endif
                             <table class="table table-striped table-bordered zero-configuration">
                                 <thead>
                                 <tr>

@@ -3,8 +3,22 @@
     <title>Fruitkha - Form</title>
 @endsection
 @section("css")
+    <style>
+        .file {
+            visibility: hidden;
+            position: absolute;
+        }
+    </style>
 @endsection
 @section("body")
+    <?php
+    $message = null;
+    $status = null;
+    if(session()->get("message_admin_product") && session()->get("status_massage")){
+        $message = session()->get("message_admin_product") ?? null;
+        $status = session()->get("status_massage") ?? null;
+    }
+    ?>
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
@@ -12,118 +26,78 @@
             </ol>
         </div>
     </div>
-
+    @if($message !== null && $status !== null)
+        <div class="{{$status}} alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button> <strong>{{$message}}</strong></div>
+    @endif
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="form-validation">
-                            <form class="form-valide" action="#" method="post">
+                            <form class="form" action="{{$url ?? ""}}" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" value="{{$product->id ?? null}}" name="id">
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-username">Username <span class="text-danger">*</span>
+                                    <label class="col-lg-4 col-form-label" for="val-username">Name <span
+                                                class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-username" name="val-username" placeholder="Enter a username..">
+                                        <input type="text" class="form-control" id="val-username" name="name"
+                                               value="{{$product->name ?? null}}"  placeholder="Enter a name..">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-email">Email <span class="text-danger">*</span>
+                                    <label class="col-lg-4 col-form-label" for="val-skill">Status <span
+                                                class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-email" name="val-email" placeholder="Your valid email..">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-password">Password <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="password" class="form-control" id="val-password" name="val-password" placeholder="Choose a safe one..">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-confirm-password">Confirm Password <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="password" class="form-control" id="val-confirm-password" name="val-confirm-password" placeholder="..and confirm it!">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-suggestions">Suggestions <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <textarea class="form-control" id="val-suggestions" name="val-suggestions" rows="5" placeholder="What would you like to see?"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-skill">Best Skill <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <select class="form-control" id="val-skill" name="val-skill">
-                                            <option value="">Please select</option>
-                                            <option value="html">HTML</option>
-                                            <option value="css">CSS</option>
-                                            <option value="javascript">JavaScript</option>
-                                            <option value="angular">Angular</option>
-                                            <option value="angular">React</option>
-                                            <option value="vuejs">Vue.js</option>
-                                            <option value="ruby">Ruby</option>
-                                            <option value="php">PHP</option>
-                                            <option value="asp">ASP.NET</option>
-                                            <option value="python">Python</option>
-                                            <option value="mysql">MySQL</option>
+                                        <select class="form-control" id="status" name="status" >
+                                            <option {{isset($product->status) ? $product->status==1 ? "selected":"" : null}} value="1">Active</option>
+                                            <option {{isset($product->status) ? $product->status==0 ? "selected":"" : null}} value="0">Delete</option>
                                         </select>
                                     </div>
                                 </div>
+
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-currency">Currency <span class="text-danger">*</span>
+                                    <label class="col-lg-4 col-form-label" for="val-phoneus">Quantity<span
+                                                class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-currency" name="val-currency" placeholder="$21.60">
+                                        <input type="text" class="form-control" id="quantity" name="quantity"
+                                               value="{{$product->quantity ?? null}}" placeholder="Your Quantity">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-website">Website <span class="text-danger">*</span>
+                                    <label class="col-lg-4 col-form-label" for="val-phoneus">Price<span
+                                                class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-website" name="val-website" placeholder="http://example.com">
+                                        <input type="text" class="form-control" id="quantity" name="price"
+                                               value="{{$product->price ?? null}}" placeholder="Your Quantity">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-phoneus">Phone (US) <span class="text-danger">*</span>
+                                    <label class="col-lg-4 col-form-label" for="val-username">Thumbnail <span
+                                                class="text-danger">*</span>
                                     </label>
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-phoneus" name="val-phoneus" placeholder="212-999-0000">
+                                    <div class="ml-2 col-sm-6">
+                                        <div id="msg"></div>
+
+                                            <input type="file" name="img" class="file" accept="image/*">
+                                            <div class="input-group my-3">
+                                                <input type="text" class="form-control" onchange="imageChange(this)" name="thumbnail_link" placeholder="Upload File" id="file">
+                                                <div class="input-group-append">
+                                                    <button type="button" class="browse btn btn-primary">Browse...</button>
+                                                </div>
+                                            </div>
+
+
+                                            <img src="{{$product->thumbnail??null}}" id="preview" class="img-thumbnail">
+
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-digits">Digits <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-digits" name="val-digits" placeholder="5">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-number">Number <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-number" name="val-number" placeholder="5.0">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label" for="val-range">Range [1, 5] <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-range" name="val-range" placeholder="4">
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-lg-4 col-form-label"><a href="#">Terms &amp; Conditions</a>  <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="col-lg-8">
-                                        <label class="css-control css-control-primary css-checkbox" for="val-terms">
-                                            <input type="checkbox" class="css-control-input" id="val-terms" name="val-terms" value="1"> <span class="css-control-indicator"></span> I agree to the terms</label>
-                                    </div>
+
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-8 ml-auto">
@@ -142,6 +116,30 @@
 
 @section("script")
 
-    <script src="../admin/plugins/validation/jquery.validate.min.js"></script>
-    <script src="../admin/plugins/validation/jquery.validate-init.js"></script>
+    <script>
+        function imageChange(element){
+            var link = $(element).val();
+            document.getElementById("preview").src = link;
+        }
+        $(document).on("click", ".browse", function() {
+            var file = $(this).parents().find(".file");
+            file.trigger("click");
+        });
+        $('input[type="file"]').change(function(e) {
+            var fileName = e.target.files[0].name;
+            $("#file").val(fileName);
+
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                // get loaded data and render thumbnail.
+                document.getElementById("preview").src = e.target.result;
+            };
+            // read the image file as a data URL.
+            reader.readAsDataURL(this.files[0]);
+
+
+        });
+
+    </script>
+
 @endsection
