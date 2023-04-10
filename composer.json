@@ -15,7 +15,11 @@
         "laravelcollective/html": "*"
 =======
         "srmklive/paypal": "~1.0"
+<<<<<<< HEAD
 >>>>>>> 28cbf7a26a093ec43e85df702b3428966f25dfdc
+=======
+        
+>>>>>>> origin/dev
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

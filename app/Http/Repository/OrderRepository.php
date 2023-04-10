@@ -36,7 +36,7 @@ class OrderRepository
                 "address" => $data["address"],
                 "code" => $data["phone"],
                 "cart_id" => $data["cart_id"],
-                "message" => $data["message"],
+                "message" => isset($data["message"]) ? $data["message"] : "null",
                 "name" => $data["name"],
                 "email" => $data["email"],
                 "status" => Status::WAITING,
@@ -71,11 +71,15 @@ class OrderRepository
 
     function getOrderById($id)
     {
-        return Orders::find($id)->with(["order_details.product"]);
+        return Orders::whereId($id)->with(["order_details.product"]);
     }
 
     function updateOrderById($id, $data)
     {
         return Orders::find($id)->update($data);
+    }
+
+    function getAllOrder(){
+        return Orders::all();
     }
 }

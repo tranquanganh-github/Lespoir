@@ -6,7 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 
 class AuthRepository
@@ -50,22 +50,33 @@ class AuthRepository
     }
 
 
-    public function getAllOfUser()
+    public function getAllOfUser($roles = false)
     {
-        $users = User::all();
+        $users = User::query();
+        $users = $roles ? $users->with(["roles"]) : $users->all();
         return $users;
     }
 
+    public function getUserById($id){
+        return User::whereId($id);
+    }
 
-    public function update($id)
+    public function update($id,$data)
     {
-        $user = User::find($id);
-        if($user->status==1){
-            $user->status = 0;
-        }else if($user->status==0){
-            $user->status = 1;
-        }
-        $user->save();
+        $user = User::find($id)->update($data);
         return $user;
+    }
+    function updateRoleUser($data){
+     $user =   User::whereId($data["user_id"])->with("roles")->get();
+     $user_roles = $user->pluck("roles")->flatten()->pluck("id")->toArray();
+
+     if (!in_array($data["role_id"],$user_roles)){
+         return DB::table("role_user")->insert($data);
+     }else{
+        return DB::table("role_user")
+             ->where("user_id",$data["user_id"])
+             ->where("role_id",$data["role_id"])
+             ->delete();
+     }
     }
 }

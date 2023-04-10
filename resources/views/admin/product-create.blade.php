@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @extends('layouts')
 @section('Product-form', 'store products')
 @section('form')
@@ -12,6 +13,12 @@
     </div>
 </div>
 <form method="POST" action="{{ route('store') }}" enctype="multipart/form-data">
+=======
+{{-- @extends('layouts.app') --}}
+{{-- @section('Product-form', 'store products')
+@section('form') --}}
+<form method="GET" action="{{ route('store') }}" enctype="multipart/form-data">
+>>>>>>> origin/dev
     @csrf
     <label>Name</label>
     <input type="text" name="name" value="{{ $product->name }}">
@@ -21,6 +28,12 @@
     <input type="number" name="quantity" value="{{ $product->quantity }}">
     <label>Status</label>
     <input type="number" name="status" value="{{ $product->status }}">
+<<<<<<< HEAD
     <button type="submit" class="btn btn-primary">Add Product</button>
 </form>
 @endsection
+=======
+    <button type="submit">Add Product</button>
+</form>
+{{-- @endsection --}}
+>>>>>>> origin/dev

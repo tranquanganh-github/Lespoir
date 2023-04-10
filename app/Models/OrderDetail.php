@@ -25,4 +25,15 @@ class OrderDetail extends Model
     {
         return $this->hasOne(Products::class,"id","product_id");
     }
+
+    public function  statusString(){
+        switch ($this->status){
+            case 1:
+                return "Active";
+            case 0:
+                return "Delete";
+            default:
+                return "Unknown";
+        }
+    }
 }

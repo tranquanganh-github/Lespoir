@@ -90,7 +90,7 @@
                                     <li>
                                         <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
                                     </li>
-                                    <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                    <li><a href="{{route("sign.out")}}"><i class="icon-key"></i> <span>Logout</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -161,8 +161,8 @@
                     </a>
                     <ul aria-expanded="false">
                         <li><a href="{{route("admin.form.product")}}">Product</a></li>
-                        <li><a href="{{route("admin.form.order")}}">Order</a></li>
-                        <li><a href="{{route("admin.form.user")}}">User</a></li>
+{{--                        <li><a href="{{route("admin.form.order")}}">Order</a></li>--}}
+{{--                        <li><a href="{{route("admin.form.user")}}">User</a></li>--}}
                         <li><a href="{{route("admin.form.new")}}">New</a></li>
                     </ul>
                 </li>
