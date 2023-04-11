@@ -147,6 +147,7 @@ function ajaxPaypal(url, data) {
         encode: true,
         success: function (data) {
             hiddenLoad();
+            console.log(data);
             switch (data.status) {
                 case STATUS_SUCCESS:
                     window.location.href = data.data.paypal_link;
