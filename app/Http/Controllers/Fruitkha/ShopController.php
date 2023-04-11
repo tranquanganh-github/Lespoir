@@ -11,25 +11,41 @@ use Illuminate\Support\Facades\Cache;
 
 class ShopController extends Controller
 {
-    protected ProductRepository $productRepository;
-    protected CategoryRepository $categoryRepository;
+    protected $productRepository;
+    protected $categoryRepository;
 
     public function __construct(ProductRepository $productRepository,CategoryRepository $categoryRepository)
     {
+
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
-    function shopView(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+
+    /**
+     * returns the user-side shop page
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    function shopView(Request $request)
     {
+        /*take out the most expensive and cheapest product and divide it into sub-arrays*/
         $minMax = $this->getMinMaxPrice();
+        /*retrieve filterable products according to the input condition*/
         $products = $this->getAllProduct($request);
+        /*get list of categories*/
         $categories = $this->categoryRepository->getAllCategory();
+        /*paginate and get a limit of 6*/
         $products = $products->paginate(6);
+        /*data binding and return view*/
         return view('client.shop.shop', compact("categories","products", "minMax"));
     }
 
-    function getMinMaxPrice(): array
+    /**
+     * returns the array of the most expensive and cheapest product
+     * @return array
+     */
+    function getMinMaxPrice()
     {
         $key = "min_max_product";
         $price = Cache::get($key);
@@ -49,11 +65,17 @@ class ShopController extends Controller
         return $filterArray;
     }
 
-    function cartView(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    /**
+     * return cart view
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    function cartView()
     {
         return view('client.cart.cart');
     }
-
+    /*
+     * Returns product list with conditions attached
+     * */
     function getAllProduct(Request $request)
     {
         $products = $this->productRepository->getAllOfProduct($request);

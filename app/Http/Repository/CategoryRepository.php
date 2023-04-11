@@ -6,16 +6,40 @@ use App\Models\Categories;
 
 class CategoryRepository
 {
- function getAllCategory(){
+
+    /**
+     * lấy ra tất cả danh mục sản phẩm
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    function getAllCategory(){
      return Categories::all()->where("status","=",1);
  }
- function getCategoryById($id){
+
+    /**
+     * lấy danh mục theo id
+     * @param $id
+     * @return mixed
+     */
+    function getCategoryById($id){
      return Categories::whereId($id);
  }
- function updateCategoryById($id,$data){
+
+    /**
+     * cập nhật danh mục theo id
+     * @param $id
+     * @param $data
+     * @return mixed
+     */
+    function updateCategoryById($id, $data){
      return Categories::whereId($id)->update($data);
  }
- function createCategory($data){
+
+    /**
+     * tạo danh mục
+     * @param $data
+     * @return mixed
+     */
+    function createCategory($data){
      return Categories::insert($data);
  }
 }
