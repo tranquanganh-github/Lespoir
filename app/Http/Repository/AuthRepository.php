@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Hashing\Hasher as HasherContract;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 
@@ -57,26 +58,30 @@ class AuthRepository
         return $users;
     }
 
-    public function getUserById($id){
+    public function getUserById($id)
+    {
         return User::whereId($id);
     }
 
-    public function update($id,$data)
+    public function update($id, $data)
     {
         $user = User::find($id)->update($data);
         return $user;
     }
-    function updateRoleUser($data){
-     $user =   User::whereId($data["user_id"])->with("roles")->get();
-     $user_roles = $user->pluck("roles")->flatten()->pluck("id")->toArray();
 
-     if (!in_array($data["role_id"],$user_roles)){
-         return DB::table("role_user")->insert($data);
-     }else{
-        return DB::table("role_user")
-             ->where("user_id",$data["user_id"])
-             ->where("role_id",$data["role_id"])
-             ->delete();
-     }
+    function updateRoleUser($data)
+    {
+        $user = User::whereId($data["user_id"])->with("roles")->get();
+        $user_roles = $user->pluck("roles")->flatten()->pluck("id")->toArray();
+        $cacheKey = "role_ids_" . $data["user_id"];
+        Cache::forget($cacheKey);
+        if (!in_array($data["role_id"], $user_roles)) {
+            return DB::table("role_user")->insert($data);
+        } else {
+            return DB::table("role_user")
+                ->where("user_id", $data["user_id"])
+                ->where("role_id", $data["role_id"])
+                ->delete();
+        }
     }
 }
