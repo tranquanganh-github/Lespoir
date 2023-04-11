@@ -59,7 +59,29 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-skill">Category <span
+                                                class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select class="form-control" id="status" name="category_id" >
+                                          @foreach($categories as $category)
+                                                <option {{isset($product->category_id) ? $product->category_id==$category->id ? "selected":"" : null}} value="{{$category->id ?? 0}}">{{$category->name ?? ""}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-skill">Description <span
+                                                class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <textarea class="form-control h-150px" rows="6" name="description" id="description">
+                                            {!! $product->description ?? "" !!}
 
+                                        </textarea>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="val-phoneus">Quantity<span
                                                 class="text-danger">*</span>

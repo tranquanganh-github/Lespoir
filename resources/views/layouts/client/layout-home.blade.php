@@ -115,6 +115,9 @@ if(session('cart') != null){
 
                                     </ul>
                                 </li>
+                                @if($user->hasRole("Admin"))
+                                    <li><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                                @endif
                             @endif
                             <li>
                                 <div class="header-icons" >

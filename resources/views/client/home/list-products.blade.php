@@ -16,7 +16,16 @@
                         <a href="{{ route("detail-product",['id'=>$product->id]) }}"><img src="{{ $product->thumbnail }}" alt=""></a>
                     </div>
                     <h3>{{ $product->name }}</h3>
-                    <p class="product-price"><span>Quantity:{{ $product->quantity }}</span> {{ $product->price }}$ </p>
+                    <div class="col-lg-8" style="margin: 0 auto">
+                    <div class=" d-flex justify-content-between">
+                        <span>    Quantity: {{ $product->quantity }}</span>
+                        <span>    Category: {{ $product->category->name ?? "" }}</span>
+                    </div>
+                </div>
+                    <p class="product-price">
+
+                        {{ $product->price }}$
+                    </p>
                     <a href="{{ route("addToCart",['id'=>$product->id]) }}" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                 </div>
             </div>

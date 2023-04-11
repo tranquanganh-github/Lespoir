@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -56,5 +57,22 @@ class User extends Authenticatable
     }
     public function orders(){
         return $this->hasMany(Orders::class,"user_id","id");
+    }
+    public function hasRole($roleName){
+        $roleNames = $this->getRolesArray("name");
+        return in_array($roleName,$roleNames);
+    }
+    public function getRolesArray($role_column)
+    {
+        $user = $this;
+        $cacheKey = "role_".$role_column."s_".$user->id;
+        $rolesIds = Cache::get($cacheKey);
+//        if(!is_null($rolesIds)){
+//            return $rolesIds;
+//        }
+        $user = User::where("id", "=", $user->id)->with(["roles"])->get();
+        $rolesIds = $user->pluck("roles")->flatten()->pluck($role_column)->toArray();
+        Cache::put($cacheKey, $rolesIds, 300);
+        return $rolesIds;
     }
 }
