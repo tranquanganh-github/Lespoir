@@ -3,6 +3,8 @@
 namespace App\Http\Repository;
 
 use App\Models\News;
+use Illuminate\Support\Facades\DB;
+use Mockery\Exception;
 
 class NewRepository
 {

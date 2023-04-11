@@ -24,7 +24,7 @@
                             </p>
                             <h2>{{ $new['title'] }}</h2>
                             <p>{{ $new['description'] }}</p>
-                            <p>{{ $new['content'] }}</p>
+                            <p>{!!$new['content']!!}</p>
                         </div>
                     </div>
                 </div>

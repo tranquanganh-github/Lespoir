@@ -26,12 +26,17 @@ class News extends Model
         "updated_at",
     ];
 
-    public function statusString(): string
+    public function user()
     {
-        return match ($this->status) {
-            1 => "Active",
-            0 => "Delete",
-            default => "Unknown",
-        };
+        return $this->hasOne(User::class,"id","author_id");
+    }
+    public function statusString()
+    {
+//        return match ($this->status) {
+//            1 => "Active",
+//            0 => "Delete",
+//            default => "Unknown",
+//        };
+        return "1";
     }
 }

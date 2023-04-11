@@ -45,7 +45,6 @@
                                     <th>Title</th>
                                     <th>Description</th>
                                     <th>Author</th>
-                                    <th>Content</th>
                                     <th>Status</th>
                                     <th>Created_at</th>
                                     <th>Action</th>
@@ -62,7 +61,6 @@
                                         <td>{{ $new->title }}</td>
                                         <td>{{ $new->description }}</td>
                                         <td>@if($new->author_id === 1) Admin @endif</td>
-                                        <td>{{ $new->content }}</td>
                                         <td>
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn mb-1 btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -75,7 +73,7 @@
                                             </div>
                                         </td>
                                         <td>{{ $new->created_at }}</td>
-                                        <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route("admin.form.new",['id'=>$new->id]) }}">Edit</a></td>
+                                        <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route("admin.form.new.edit",['id'=>$new->id]) }}">Edit</a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>
