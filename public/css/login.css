@@ -31,6 +31,7 @@ body {
     margin-top: 150px;
     width: 100vh;
     min-height: 80vh;
+    background: #3498DB;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
 .curve-outside-1{
@@ -110,7 +111,7 @@ body {
     flex-direction: column;
 }
 .form-register{
-    background: #3498DB;
+    /*background: #3498DB;*/
     width: 100%;
     padding: 30px 10px;
     display: flex;

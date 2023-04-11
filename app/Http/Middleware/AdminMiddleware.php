@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
 class AdminMiddleware
 {
     /**
@@ -25,4 +26,5 @@ class AdminMiddleware
             abort(404);
         }
     }
+
 }

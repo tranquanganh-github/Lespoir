@@ -6,6 +6,19 @@
     <p>See more Details</p>
     <h1>Single Product</h1>
 @endsection
+@section('home-css')
+    <style>
+        .text-n-line{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            /*-webkit-line-clamp: 8; !* number of lines to show *!*/
+            /*line-height: 8;        !* fallback *!*/
+            max-height: 400px;       /* fallback */
+        }
+    </style>
+@endsection
 @section('content-page')
 <?php
     $cartItem = isset(session()->get('cart')[$product['id']]) ? session()->get('cart')[$product['id']] : null;
@@ -22,15 +35,17 @@
                 </div>
                 <div class="col-md-7">
                     <div class="single-product-content">
-                        <h3>{{ $product['name'] }} have polyphenols</h3>
+                        <h3>{{ $product['name'] }}</h3>
                         <p class="single-product-pricing"><span>Per Kg</span>$ {{ $product['price'] }}</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta sint dignissimos, rem commodi cum voluptatem quae reprehenderit repudiandae ea tempora incidunt ipsa, quisquam animi perferendis eos eum modi! Tempora, earum.</p>
+                        <p class="text-n-line">
+                        {!! $product["description"] !!}
+                        </p>
                         <div class="single-product-form">
                             <form action="{{ route("addToCart",['id'=>$product['id']]) }}">
                                 <input type="number" placeholder="0" value="{{$quantity}}" name="quantity">
                                 <input type="hidden" name="id" value="{{$product['id']}}"></input>
                                 <button type="submit" style="    margin-left: 36px;" class="mb-lg-n1 btn btn-outline-dark">Add to Cart</button>
-                                <p><strong>Categories: </strong>Fruits, Organic</p>
+                                <p><strong>Categories: </strong>{{$product["category"]["name"]}}</p>
                             </form>
                         </div>
                         <h4>Share:</h4>

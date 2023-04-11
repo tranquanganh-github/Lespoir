@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Fruitkha;
 
 use App\Http\Controllers\Controller;
+use App\Http\Repository\CategoryRepository;
 use App\Http\Repository\ProductRepository;
 use App\Http\Respone\ProductRespone;
 use App\Models\Products;
@@ -14,10 +15,12 @@ class ProductController extends Controller
     use ProductRespone;
 
     protected $productRepository;
+    protected $categoryRepository;
 
-    public function __construct(ProductRepository $productRepository)
+    public function __construct(ProductRepository $productRepository,CategoryRepository $categoryRepository)
     {
         $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     function detailProduct(Request $request)
@@ -75,7 +78,8 @@ class ProductController extends Controller
     //for admin
     public function index()
     {
-        $products = Products::all();
+        $products = Products::select()->orderBy('created_at')->get();
+
         return view("admin.table.products", compact('products'))->with('json', $products->toJson());
     }
 
@@ -100,7 +104,10 @@ class ProductController extends Controller
     {
         $product = $this->productRepository->getProductById($request->id)->first();
         $url = route('admin.table.products.update');
-        return view('admin.form.product', compact('product','url'));
+        $categories = $this->categoryRepository->getAllCategory()->filter(function ($category){
+            return $category->status != 0;
+        });
+        return view('admin.form.product', compact('categories','product','url'));
     }
 
     /**
@@ -149,7 +156,10 @@ class ProductController extends Controller
     function createProductView()
     {
         $url  = route('admin.table.products.create');
-        return view("admin.form.product",compact('url'));
+        $categories = $this->categoryRepository->getAllCategory()->filter(function ($category){
+            return $category->status != 0;
+        });
+        return view("admin.form.product",compact('url','categories'));
     }
 
     /**
@@ -163,6 +173,8 @@ class ProductController extends Controller
         $validatedData = $request->validate([
             "name" => 'required|max:255',
             "quantity" => 'required|integer|min:0',
+            "category_id" => 'required|integer',
+            "description" => 'required',
             'status' => 'required|integer',
             'price' => 'required|numeric|min:0'
         ]);

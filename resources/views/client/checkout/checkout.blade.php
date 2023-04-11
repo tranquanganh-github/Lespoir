@@ -32,7 +32,8 @@
                                         <div class="billing-address-form">
                                             <form action="">
                                                 <p><input type="text" value="{{$user->name ?? ""}}" name="name"
-                                                          placeholder="Name"></p>
+                                                          placeholder="Name">
+                                                </p>
                                                 <p><input type="email" value="{{$user->email ?? ""}}" name="email"
                                                           placeholder="Email"></p>
                                                 <p><input type="text" value="{{$user->address ?? ""}}" name="address"

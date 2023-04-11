@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Fruitkha\CategoryController;
 use App\Http\Controllers\Fruitkha\CheckoutController;
 use App\Http\Controllers\Fruitkha\EmailController;
 use App\Http\Controllers\Fruitkha\HomeController;
@@ -34,7 +35,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/paypal-success', [CheckoutController::class, "checkTransaction"])->name('payment.paypal.success');
     Route::get("/payment-message", [CheckoutController::class, "viewMessage"])->name("check-out-status");
 });
-Route::group(["prefix" => "/admin","middleware"=>"admin"], function () {
+Route::group(["prefix" => "/admin","middleware"=>["admin","auth"]], function () {
     //Dashboard
     Route::get('/dashboard', [HomeController::class, "dashBoard"])->name("admin.dashboard");
     //Email
@@ -47,43 +48,31 @@ Route::group(["prefix" => "/admin","middleware"=>"admin"], function () {
 
     Route::get("/table-orders",[OrderController::class,"listOrdersAdmin"])->name("admin.table.orders");
 
-
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
     Route::get("/user/update-role", [UserController::class,"updateRoleUser"])->name("admin.user.update.role");
-
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
-
-
     Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
     Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
-
     Route::get("/table-news",function (){
         return view("admin.table.news");
     })->name("admin.table.news");
-
     //Form
-
     Route::get("/form-order",[OrderController::class,"createOrderView"])->name("admin.form.order");
-
     Route::get("/form-new", [NewController::class,"createNewView"])->name("admin.form.new");
-
     Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
     Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
     Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
-
     Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
-
-
     Route::get('/table-products',[ProductController::class, 'index'])->name("admin.table.products");
-
+    Route::get('/table-categories',[CategoryController::class, 'table'])->name("admin.table.categories");
     Route::get('/table-products-update',[ProductController::class, 'edit'])->name('admin.table.products.update');
     Route::post('/table-products-update', [ProductController::class, 'updateProduct'])->name('admin.table.products.update');
-
     Route::get("/form-product",[ProductController::class,"createProductView"])->name("admin.form.product");
-
-//    Route::get('/form-product', [ProductController::class,'create'])->name('admin.table.products.create');
+    Route::get('/form-category', [CategoryController::class, 'formEdit'])->name('admin.table.categories.update');
+    Route::post('/form-category', [CategoryController::class, 'edit'])->name('admin.table.categories.update');
+    Route::get('/create-category', [CategoryController::class, 'create'])->name('admin.form.category');
+    Route::post('/create-category', [CategoryController::class, 'createPost'])->name('admin.form.category');
     Route::post('/form-product', [ProductController::class, 'store'])->name('admin.table.products.create');
-
     Route::get('/product-update', [ProductController::class,'changeStatus'])->name('admin.product.changestatus');
 
 });
