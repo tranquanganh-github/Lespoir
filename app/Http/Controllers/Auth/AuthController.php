@@ -28,17 +28,25 @@ class AuthController extends BaseAuthenController
 
     }
 
+    /**
+     * đang ký người dùng
+     * @param RegisterRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(RegisterRequest $request)
     {
 
         $data = $request->all();
 //        $salt = $this->randomSalt(16);
+        /*mã hóa mật khẩu*/
         $password = $this->createPasswordHas($data["password"]);
+        /*tìm kiếm tài khoản đã tồn tại chưa*/
         $userExist = $this->authRepository->findUserByUsername($data["username"],true);
         if ($userExist >= 1) {
             return $this->responseExistAccount();
         }
         try {
+            /*tạo người dùng*/
             $user = $this->authRepository->createUser($data, $password);
             return $this->responseCreatedUserSuccessful($user);
         } catch (\Exception $ex) {
@@ -47,10 +55,16 @@ class AuthController extends BaseAuthenController
 
     }
 
+    /**
+     * đăng nhập
+     * @param LoginRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login(LoginRequest $request)
     {
-
+        /*chỉ nhận reuqest username và password*/
         $credentials = $request->only('username', 'password');
+        /*tiến hành check authentication*/
         $isAuthenticated = $this->authRepository->checkAuthenticated($credentials);
 
         try {
@@ -66,10 +80,19 @@ class AuthController extends BaseAuthenController
         ]);
     }
 
+    /**
+     * đăng xuất
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logOut(){
         Auth::logout();
         return redirect()->route("home.page1");
     }
+
+    /**
+     * chi tiết người dùng
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function userDetailView(){
         $user = Auth::user();
         if (is_null($user)){
@@ -77,11 +100,20 @@ class AuthController extends BaseAuthenController
         }
         return view();
     }
+
+    /**
+     * form đăng nhập
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function loginView()
     {
         return view("login");
     }
 
+    /**
+     * form đăng ký
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function registerView()
     {
         return view("register");

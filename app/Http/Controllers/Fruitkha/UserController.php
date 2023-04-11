@@ -19,13 +19,11 @@ class UserController extends Controller
         $this->userRepository = $authRepository;
     }
 
-    function tableView()
-    {
-        $users = $this->userRepository->getAllOfUser();
-        return view("users", compact("users"));
-    }
-
-
+    /**
+     * cập nhật thông tin người dùng
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function updateUser(Request $request)
     {
         $result = $this->userRepository->update($request->id, $request->all());
@@ -34,6 +32,10 @@ class UserController extends Controller
         return $this->responeResultWithMessage($result, $messageSuccess, $messageFail);
     }
 
+    /**
+     * danh sách người dùng cho admin
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function listUsersAdmin()
     {
         $users = $this->userRepository->getAllOfUser(true)->get();
@@ -52,12 +54,22 @@ class UserController extends Controller
         return view("admin.table.users", compact("users"));
     }
 
+    /**
+     * form cập nhật thông tin người dùng
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function editViewUser(Request $request)
     {
         $user = $this->userRepository->getUserById($request->id)->with(["orders"])->first();
         return view("admin.form.user", compact("user"));
     }
 
+    /**
+     * tiến hành cập nhật trạng thái ngường dùng
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function editViewUserPost(Request $request)
     {
         $result = $this->userRepository->update($request->id, ["status" => $request->status]);
@@ -66,6 +78,11 @@ class UserController extends Controller
         return $this->responeResultWithMessage($result, $messageSuccess, $messageFail);
     }
 
+    /**
+     * cập nhật quyền cho người dùng
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     function updateRoleUser(Request $request){
         $result = $this->userRepository->updateRoleUser([
             "user_id"=>$request->id,

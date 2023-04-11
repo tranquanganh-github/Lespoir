@@ -21,19 +21,30 @@ class ShopController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
-//     function getListProduct(){
-//     $products=$this->getAllProduct();
-//        return $this->productRepository;
-// }
+
+    /**
+     * returns the user-side shop page
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function shopView(Request $request)
     {
+        /*take out the most expensive and cheapest product and divide it into sub-arrays*/
         $minMax = $this->getMinMaxPrice();
+        /*retrieve filterable products according to the input condition*/
         $products = $this->getAllProduct($request);
+        /*get list of categories*/
         $categories = $this->categoryRepository->getAllCategory();
+        /*paginate and get a limit of 6*/
         $products = $products->paginate(6);
+        /*data binding and return view*/
         return view('client.shop.shop', compact("categories","products", "minMax"));
     }
 
+    /**
+     * returns the array of the most expensive and cheapest product
+     * @return array
+     */
     function getMinMaxPrice()
     {
         $key = "min_max_product";
@@ -54,11 +65,17 @@ class ShopController extends Controller
         return $filterArray;
     }
 
+    /**
+     * return cart view
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     function cartView()
     {
         return view('client.cart.cart');
     }
-
+    /*
+     * Returns product list with conditions attached
+     * */
     function getAllProduct(Request $request)
     {
         $products = $this->productRepository->getAllOfProduct($request);
