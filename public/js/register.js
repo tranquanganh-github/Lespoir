@@ -110,6 +110,7 @@ $(function () {
             username: {
                 required: true,
                 username: true,
+                minlength: 8
             },
             password: {
                 required: true,
@@ -129,19 +130,20 @@ $(function () {
             leyka_donor_phone: {
                 required: true,
             },
-            first_name: {
+            name: {
                 required: true,
                 full_name: true,
             },
-            last_name: {
-                required: true,
-                full_name: true,
-            },
+            // last_name: {
+            //     required: true,
+            //     full_name: true,
+            // },
         },
         messages: {
             username: {
                 required: "Account cannot be empty",
                 username: "Account contains only alphanumeric",
+                minlength: "Account to short",
             },
             password: {
                 required: "Password cannot be blank",
@@ -157,14 +159,14 @@ $(function () {
                 required: "Email cannot be blank",
                 email: "Invalid email format",
             },
-            first_name: {
+            name: {
                 required: "Last Name cannot be empty",
                 full_name: "malformed",
             },
-            last_name: {
-                required: "Name cannot be blank",
-                full_name: "malformed",
-            },
+            // last_name: {
+            //     required: "Name cannot be blank",
+            //     full_name: "malformed",
+            // },
 
         },
         submitHandler: function () {

@@ -15,17 +15,12 @@ class ProductRepository
         return $products;
     }
 
-    function getAllOfProduct($keyword){
-        $size = 10;
-        $products = is_null($keyword) ? Products::select() : Products::where(function ($query) use($keyword,$size){
-            $query->where("name","like","%$keyword%");
-            $query = is_numeric($keyword) ? $query->orwhere(function ($query) use ($keyword,$size){
-                return $query->where("price","<",$keyword + $size)->where("price",">",($keyword > $size ? $keyword-$size:$keyword));
-            }) : $query;
-            return$query;
+    function getAllOfProduct($request){
 
-        });
-        return $products->orderBy('created_at','ASC')->paginate(6);
+        $products = Products::query()->keyword($request)
+            ->price($request)
+            ->category($request);
+        return $products->orderBy('created_at','ASC');
     }
 
     function getProductByIds($ids){
@@ -43,6 +38,15 @@ class ProductRepository
     }
     function getProductByName($name){
         return Products::where("name","=",$name)->where("status",1);
+    }
+
+    function getMinMaxPrice(){
+        $max =  Products::max("price");
+        $min =  Products::min("price");
+        return [
+            "max" => $max,
+            "min" => $min
+        ];
     }
 
 }

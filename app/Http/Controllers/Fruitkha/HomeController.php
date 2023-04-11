@@ -64,7 +64,7 @@ class HomeController extends Controller
         );
 
         Contacts::insert($ContactInfo);
-
+        return redirect()->back();
     }
     function dashBoard()
     {
