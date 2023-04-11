@@ -50,10 +50,10 @@ Route::group(["prefix" => "/admin","middleware"=>["admin","auth"]], function () 
 
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
     Route::get("/user/update-role", [UserController::class,"updateRoleUser"])->name("admin.user.update.role");
-    Route::post('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+    Route::get('/user-update-status', [UserController::class,"editViewUserPost"])->name('admin.form.user.status');
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
     Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
-    Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
+    Route::post("/form-user",[UserController::class,"updateUser"])->name("admin.user.update");
     Route::get("/table-news",function (){
         return view("admin.table.news");
     })->name("admin.table.news");
