@@ -50,6 +50,7 @@ Route::group(["prefix" => "/admin","middleware"=>["admin","auth"]], function () 
 
     Route::get("/table-users", [UserController::class,"listUsersAdmin"])->name("admin.table.users");
     Route::get("/user/update-role", [UserController::class,"updateRoleUser"])->name("admin.user.update.role");
+    Route::post('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
     Route::get("/table-news", [NewController::class,"listNewsAdmin"])->name("admin.table.news");
     Route::get("/form-user",[UserController::class,"editViewUser"])->name('admin.form.user');
     Route::post("/form-user",[UserController::class,"editViewUserPost"])->name('admin.form.user');
@@ -62,7 +63,7 @@ Route::group(["prefix" => "/admin","middleware"=>["admin","auth"]], function () 
     Route::get("/order-update",[OrderController::class,"updateOrder"])->name("admin.order.update");
     Route::post("/order-update",[OrderController::class,"updateOrderPost"])->name("admin.order.update");
     Route::get("/order-detail",[OrderController::class,"detailOrder"])->name("admin.order.detail");
-    Route::get('/user-update', [UserController::class,"updateUser"])->name("admin.user.update");
+
     Route::get('/table-products',[ProductController::class, 'index'])->name("admin.table.products");
     Route::get('/table-categories',[CategoryController::class, 'table'])->name("admin.table.categories");
     Route::get('/table-products-update',[ProductController::class, 'edit'])->name('admin.table.products.update');

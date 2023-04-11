@@ -28,7 +28,7 @@ class UserController extends Controller
 
     function updateUser(Request $request)
     {
-        $result = $this->userRepository->update($request->id, ["status" => $request->status]);
+        $result = $this->userRepository->update($request->id, $request->all());
         $messageSuccess = "Update user success!";
         $messageFail = "Update user fail!";
         return $this->responeResultWithMessage($result, $messageSuccess, $messageFail);

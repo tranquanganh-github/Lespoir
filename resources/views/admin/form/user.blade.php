@@ -17,6 +17,14 @@
     </style>
 @endsection
 @section("body")
+    <?php
+    $message = null;
+    $status = null;
+    if(session()->get("message_admin_user") && session()->get("status_massage")){
+        $message = session()->get("message_admin_user") ?? null;
+        $status = session()->get("status_massage") ?? null;
+    }
+    ?>
     <div class="row page-titles mx-0">
         <div class="col p-md-0">
             <ol class="breadcrumb">
@@ -24,21 +32,26 @@
             </ol>
         </div>
     </div>
+    @if($message !== null && $status !== null)
+        <div class="{{$status}} alert-dismissible fade show">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span>
+            </button> <strong>{{$message}}</strong></div>
+    @endif
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="form-validation">
-                            <form class="form-valide" action="{{ route("admin.form.user",['id'=>$user->id]) }}"
+                            <form class="form-valide" action="{{ route("admin.user.update",['id'=>$user->id]) }}"
                                   method="post">
                                 <div class="form-group row">
                                     <label class="col-lg-4 col-form-label" for="val-username">Username <span
                                                 class="text-danger">*</span>
                                     </label>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="val-username" name="username"
-                                               placeholder="Enter a username.." value="{{$user->name}}">
+                                        <input type="text" class="form-control" id="val-username" readonly
+                                               placeholder="Enter a username.." value="{{$user->username}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -47,7 +60,7 @@
                                     </label>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="val-name" name="name"
-                                               placeholder="Enter a name.." value="{{$user->username}}">
+                                               placeholder="Enter a name.." value="{{$user->name}}">
                                     </div>
                                 </div>
                                 <div class="form-group row">
