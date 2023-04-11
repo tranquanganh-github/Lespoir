@@ -11,21 +11,16 @@ use Illuminate\Support\Facades\Cache;
 
 class ShopController extends Controller
 {
-    protected $productRepository;
-    protected $categoryRepository;
+    protected ProductRepository $productRepository;
+    protected CategoryRepository $categoryRepository;
 
     public function __construct(ProductRepository $productRepository,CategoryRepository $categoryRepository)
     {
-
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
     }
 
-//     function getListProduct(){
-//     $products=$this->getAllProduct();
-//        return $this->productRepository;
-// }
-    function shopView(Request $request)
+    function shopView(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $minMax = $this->getMinMaxPrice();
         $products = $this->getAllProduct($request);
@@ -34,7 +29,7 @@ class ShopController extends Controller
         return view('client.shop.shop', compact("categories","products", "minMax"));
     }
 
-    function getMinMaxPrice()
+    function getMinMaxPrice(): array
     {
         $key = "min_max_product";
         $price = Cache::get($key);
@@ -54,7 +49,7 @@ class ShopController extends Controller
         return $filterArray;
     }
 
-    function cartView()
+    function cartView(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         return view('client.cart.cart');
     }

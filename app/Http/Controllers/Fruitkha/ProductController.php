@@ -7,15 +7,21 @@ use App\Http\Repository\CategoryRepository;
 use App\Http\Repository\ProductRepository;
 use App\Http\Respone\ProductRespone;
 use App\Models\Products;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Cloundinary;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ProductController extends Controller
 {
     use ProductRespone;
 
-    protected $productRepository;
-    protected $categoryRepository;
+    protected ProductRepository $productRepository;
+    protected CategoryRepository $categoryRepository;
 
     public function __construct(ProductRepository $productRepository,CategoryRepository $categoryRepository)
     {
@@ -23,21 +29,35 @@ class ProductController extends Controller
         $this->categoryRepository = $categoryRepository;
     }
 
-    function detailProduct(Request $request)
+    /**
+     * Get product and top 3 products to display in single-product page.
+     * @param Request $request
+     * @return Application|Factory|View
+     */
+    function detailProduct(Request $request): View|Factory|Application
     {
         $product = Products::find($request->id);
         $products = $this->productRepository->getTop3Product();
         return view('client.product.single-product', ["products" => $products, "product" => $product]);
     }
+    // EOF
 
-    function addToCart(Request $request)
-    {
+    /**
+     * Add product to cart.
+     * @param Request $request
+     * @return RedirectResponse|void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function addToCart(Request $request){
         $product = Products::find($request->id);
         $cart = session()->get('cart');
         $request->quantity == null ? $quantity = 1 : $quantity = $request->quantity;
+        // Check product exist.
         if (empty($product)) {
             abort(404);
         } else {
+            // Check product exist in cart, if not add product to cart.
             if (isset($cart[$product->id])) {
                 $cart[$product->id]['quantity'] += $quantity;
             } else {
@@ -51,11 +71,17 @@ class ProductController extends Controller
             }
             session()->put('cart', $cart);
             return redirect()->back();
-
         }
     }
+    // EOF
 
-    function update(Request $request)
+    /**
+     * Update quantity of product in cart.
+     * @param Request $request
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function update(Request $request): void
     {
         $cart = session()->get('cart');
         if ($request->id and $request->quantity) {
@@ -63,8 +89,15 @@ class ProductController extends Controller
             session()->put('cart', $cart);
         }
     }
+    // EOF
 
-    function delete(Request $request)
+    /**
+     * Remove the products from cart.
+     * @param Request $request
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    function delete(Request $request): void
     {
         if ($request->id) {
             $cart = session()->get('cart');
@@ -74,6 +107,7 @@ class ProductController extends Controller
             }
         }
     }
+    // EOF
 
     //for admin
     public function index()
