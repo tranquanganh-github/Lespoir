@@ -124,7 +124,6 @@ class CheckoutController extends Controller
                     "qty" => $cart["quantity"],
                 ];
             }, $request->carts);
-
             $data['invoice_id'] = $order->id;
             $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
             $data['return_url'] = route("payment.paypal.success");
@@ -136,6 +135,7 @@ class CheckoutController extends Controller
             ]);
             $options = $this->getOptionPaypal();
             $response = $provider->setCurrency('USD')->addOptions($options)->setExpressCheckout($data, true);
+
             return $this->responseCreatedOrderSuccessful($response);
         } else {
             return $this->respomseCreatedOrderFail();
