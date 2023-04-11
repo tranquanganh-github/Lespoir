@@ -11,7 +11,7 @@ class ProductRepository
 {
     function getTop3Product()
     {
-        $products=Products::select()->orderBy('created_at','ASC')->limit(3)->get();
+        $products=Products::select()->where("status",1)->orderBy('created_at','ASC')->limit(3)->get();
         return $products;
     }
 
