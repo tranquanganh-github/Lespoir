@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     use UserRespone;
 
-    protected $userRepository;
+    protected AuthRepository $userRepository;
 
     public function __construct(AuthRepository $authRepository)
     {

@@ -141,6 +141,47 @@ class DatabaseSeeder extends Seeder
                 'created_at'=>Carbon::now(),
             ],
         ]);
+
+        DB::table('news')->insert([
+            [
+                'id'=>1,
+                'title'=>'Strawberry',
+                'description'=>'Strawberries are soft, sweet, bright red berries. They also delicious.',
+                'author_id'=>1,
+                'content'=>'Strawberries have tiny edible seeds, which grow all over their surface. When ripe, strawberries smell wonderful and taste even better. You can make jam, pie, strawberry shortcake, and more with strawberries. The word can also describe the red color of the fruit, or a birthmark of a similar shade: She has a strawberry birthmark on her arm.',
+                'thumbnail'=>'https://npr.brightspotcdn.com/e3/e7/38adc3fc45a786d0dcbbf1e00da8/zest-strawberries-030322.png',
+                'created_at'=>Carbon::now(),
+            ],
+            [
+                'id'=>2,
+                'title'=>'Grape',
+                'description'=>'The grape is a fruit that grows in tight clusters.',
+                'author_id'=>1,
+                'content'=>'The grape is a fruit that grows in tight clusters. It has a white or purple flesh of sweet taste, eaten raw or in juice, although it is chiefly used for making wine. They are also used to make preserves. It contains various minerals and vitamins, and it is considered to be antioxidant and anti-carcinogenic. 
+                Grapes are fleshy, rounded fruits that grow in clusters made up of many fruits of greenish, yellowish or purple skin. The pulp is juicy and sweet, and it contain several seeds or pips. It is a well-known fruit; it is eaten raw, although it is mainly used for making wine. Raw grapes are excellent as table dessert, combined with other fruits in fruit salads. 
+                Great part of the production is intended for making wines and must, whereas from their seeds we extract the grape seed oil. The clusters are dried to make raisins; besides, there are multiple preserves made from grapes, like caramel grapes, grape syrup, grapes in alcohol and grape jelly. ',
+                'thumbnail'=>'https://www.extension.iastate.edu/wine/wp-content/uploads/2022/02/DSC_0552-scaled.jpg',
+                'created_at'=>Carbon::now(),
+            ],
+            [
+                'id'=>3,
+                'title'=>'Apple',
+                'description'=>'An apple is a round fruit with red or green skin and a whitish inside.',
+                'author_id'=>1,
+                'content'=>'The apple is not just a fruit. It is a symbol — from the apples eaten by Adam and Eve in the Biblical creation story, which symbolize the loss of innocent to the expression American as apple pie to mean something that is wholesome. The apple of your eye is the person who delights you — maybe you are the apple of your grandfather eye. He might tell you, An apple a day keeps the doctor away, meaning the fruit is good for your health.',
+                'thumbnail'=>'https://idsb.tmgrup.com.tr/ly/uploads/images/2020/05/13/35552.jpeg',
+                'created_at'=>Carbon::now(),
+            ],
+            [
+                'id'=>4,
+                'title'=>'Lemon',
+                'description'=>'The pulp is pale yellow, juicy and with an acid flavour; it is divided in gores. The skin is yellow and specially bright when it is ripen.',
+                'author_id'=>1,
+                'content'=>'The lemon has multiple properties: it reinforces the immunological system, it revitalizes, it activates the calcium metabolism for bones and teeth, it cures haemorrhages, it rejuvenates and it helps in sliming diets. Nevertheless, as a very energetic fruit, it must not be given to elderly people and those in acute nervous condition.',
+                'thumbnail'=>'https://www.tastingtable.com/img/gallery/31-types-of-lemons-and-what-makes-them-unique/l-intro-1656086555.jpg',
+                'created_at'=>Carbon::now(),
+            ],
+        ]);
         DB::table('roles')->insert([
             [
                 'id'=>1,
