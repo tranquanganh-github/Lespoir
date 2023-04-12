@@ -29,7 +29,7 @@ class NewController extends Controller
     /**
      * List all news to new page (client).
      */
-    function listNews(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    function listNews(): Factory|View|Application
     {
         $news = News::select()->orderBy('created_at')->with("user")->paginate(6);
         return view('client.new.new', compact('news'));
@@ -38,7 +38,7 @@ class NewController extends Controller
     /**
      * List all news in store to display (admin).
      */
-    function listNewsAdmin(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    function listNewsAdmin(): Factory|View|Application
     {
         $news = News::select()->orderBy('created_at')->get();
         return view('admin.table.news', compact('news'));
@@ -49,7 +49,7 @@ class NewController extends Controller
      * @param Request $request
      * @return Factory|View|Application
      */
-    function detailNew(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    function detailNew(Request $request): Factory|View|Application
     {
         $new = News::find($request->id);
         return view('client.new.single', compact('new'));
@@ -67,24 +67,24 @@ class NewController extends Controller
         return view('admin.form.new', compact('new', 'url'));
     }
 
-    function createNewView()
+    function createNewView(): Factory|View|Application
     {
         $url = route("admin.form.new");
         return view('admin.form.new', compact('url'));
     }
 
-    function createnewPost(Request $request)
+    /**
+     * Create new post function.
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    function createNewPost(Request $request): RedirectResponse
     {
+        // Get all data in form.
         $data = $request->all();
         $messageSuccess = "Create new success!";
         $messageFail = "Create new fail!";
         $colud = new Cloundinary();
-        //check Product name exist
-//        $productIsExist = $this->checkProductExist($request->title);
-//        if ($productIsExist == true){
-//            $messageFail = "Tên bài viết đã tồn tại";
-//            return $this->responeResultWithMessage(false, $messageSuccess, $messageFail);
-//        }
         if (isset($request->img) && !is_null($request->img) ){
             /*upload file ảnh lên cloud và lấy link ảnh về*/
             $result = $colud->uploadImage($request,'img',$request->title);
@@ -111,7 +111,7 @@ class NewController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    function changeStatus(Request $request): \Illuminate\Http\RedirectResponse
+    function changeStatus(Request $request): RedirectResponse
     {
         $result = $this->newRepository->updateNewById($request->id, ["status" => $request->status]);
         $messageSuccess = "Update product success!";
@@ -124,7 +124,7 @@ class NewController extends Controller
      * @param Request $request
      * @return RedirectResponse
      */
-    function editNew(Request $request)
+    function editNew(Request $request): RedirectResponse
     {
         $colud = new Cloundinary();
         $data = [

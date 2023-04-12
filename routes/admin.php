@@ -30,7 +30,7 @@ Route::group(["prefix" => "/admin", "middleware" => ["admin", "auth"]], function
     //for new controller
     Route::get("/table-news", [NewController::class, "listNewsAdmin"])->name("admin.table.news");
     Route::get("/form-new-create", [NewController::class, "createNewView"])->name("admin.form.new");
-    Route::post("/form-new-create", [NewController::class, "createnewPost"])->name("admin.form.new");
+    Route::post("/form-new-create", [NewController::class, "createNewPost"])->name("admin.form.new");
     Route::get("/form-new-edit", [NewController::class, "editNewView"])->name("admin.form.new.edit");
     Route::post("/form-new-edit", [NewController::class, 'editNew'])->name('admin.form.new.edit');
     Route::get('/new-update', [NewController::class, 'changeStatus'])->name('admin.new.change.status');

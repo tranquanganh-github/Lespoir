@@ -7,15 +7,21 @@ use App\Http\Repository\CategoryRepository;
 use App\Http\Repository\ProductRepository;
 use App\Http\Respone\ProductRespone;
 use App\Models\Products;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Models\Cloundinary;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class ProductController extends Controller
 {
     use ProductRespone;
 
-    protected $productRepository;
-    protected $categoryRepository;
+    protected ProductRepository $productRepository;
+    protected CategoryRepository $categoryRepository;
 
     public function __construct(ProductRepository $productRepository,CategoryRepository $categoryRepository)
     {
@@ -24,43 +30,43 @@ class ProductController extends Controller
     }
 
     /**
-     * lấy ra chi tiết sản phẩm phía người dùng
+     * Get detail product for client.
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
-    function detailProduct(Request $request)
+    function detailProduct(Request $request): View|Factory|Application
     {
         $product = Products::find($request->id);
-        /*lấy ra 3 sản phẩm mới tạo*/
+        // Get 3 new products created
         $products = $this->productRepository->getTop3Product();
         return view('client.product.single-product', ["products" => $products, "product" => $product]);
     }
 
 
     /**
-     * thêm sản phẩm vào trong giỏ háng session
+     * Use session to store detail product cart, add product to cart
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse|void
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @return RedirectResponse|void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     function addToCart(Request $request)
     {
-        /*tìm kiếm sản phẩm*/
+        // Find product exist in db.
         $product = Products::find($request->id);
-        /*lấy rỏ hàng trong session*/
+        // Get data in cart session.
         $cart = session()->get('cart');
-        /*check nếu không gửi kèm theo số lượng thì sẽ cộng 1 vào giỏ hàng*/
+        // Check product quantity that client want to add, if $request->quantity don't have set quantity = 1.
         $request->quantity == null ? $quantity = 1 : $quantity = $request->quantity;
         if (empty($product)) {
-            /*thông báo lỗi*/
+            // Display error.
             abort(404);
         } else {
             if (isset($cart[$product->id])) {
-                /*cộng số lượng lên*/
+                // Check if this product already exist in cart session, add more quantity to cart session.
                 $cart[$product->id]['quantity'] += $quantity;
             } else {
-                /*nếu chưa có sản phẩm trong giỏ hàng thì tạo mới item giỏi hàng*/
+                // Check if this product does not exist, add new cart session.
                 $cart[$product->id] = [
                     "id" => $product->id,
                     "name" => $product->name,
@@ -69,42 +75,43 @@ class ProductController extends Controller
                     "price" => $product->price
                 ];
             }
-            /*đẩy vào trong session*/
             session()->put('cart', $cart);
             return redirect()->back();
-
         }
     }
 
     /**
-     *  cập nhập giỏi hàng
+     *  Update product quantity in cart.
      * @param Request $request
      * @return void
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    function update(Request $request)
+    function update(Request $request): void
     {
-
+        // Get data in cart session.
         $cart = session()->get('cart');
         if ($request->id and $request->quantity) {
+            // Check if product exist in cart session, yes: update quantity.
             $cart[$request->id]['quantity'] = $request->quantity;
             session()->put('cart', $cart);
         }
     }
 
     /**
-     * xóa sản phẩm trong giỏ hàng
+     * Delete product in cart.
      * @param Request $request
      * @return void
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    function delete(Request $request)
+    function delete(Request $request): void
     {
         if ($request->id) {
+            // Get data in cart session.
             $cart = session()->get('cart');
             if (isset($cart[$request->id])) {
+                // Check if product exist in cart session, yes: delete this product in cart session.
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
@@ -114,7 +121,7 @@ class ProductController extends Controller
 
     /**
      * danh sách sản phẩm cho admin
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -126,7 +133,7 @@ class ProductController extends Controller
     /**
      * form update sản phẩm cho phía admin
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     public function edit(Request $request)
     {
@@ -142,7 +149,7 @@ class ProductController extends Controller
     /**
      * cập nhật thông tin sản phẩm
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function updateProduct(Request $request)
     {
@@ -181,7 +188,7 @@ class ProductController extends Controller
     /**
      * chuyển đổi trạng thái sản phẩm phía admin
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function changeStatus(Request $request)
     {
@@ -193,7 +200,7 @@ class ProductController extends Controller
 
     /**
      * form tạo sản phẩm
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @return Application|Factory|View
      */
     function createProductView()
     {
@@ -209,7 +216,7 @@ class ProductController extends Controller
     /**
      * tiến hành tạo sản phẩm
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(Request $request)
     {
