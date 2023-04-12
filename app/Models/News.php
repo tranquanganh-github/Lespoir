@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Laravel\Scout\Searchable;
+
 
 /**
  * @method static select()
@@ -11,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory,Searchable;
 
     protected $news = "news";
     public $timestamps = true;
@@ -32,11 +35,27 @@ class News extends Model
     }
     public function statusString()
     {
-//        return match ($this->status) {
-//            1 => "Active",
-//            0 => "Delete",
-//            default => "Unknown",
-//        };
+        return match ($this->status) {
+            1 => "Active",
+            0 => "Delete",
+            default => "Unknown",
+        };
         return "1";
+    }
+    public function searchableAs()
+    {
+        return 'news_index';
+    }
+    protected function makeAllSearchableUsing(Builder $query): Builder
+    {
+        return $query->with('user');
+    }
+    public function toSearchableArray()
+    {
+        return [
+            'id' => (int) $this->id,
+            'title' => $this->title,
+            'description' =>  $this->description,
+        ];
     }
 }

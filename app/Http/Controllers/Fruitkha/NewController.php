@@ -31,8 +31,8 @@ class NewController extends Controller
      */
     function listNews(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $news = News::select()->orderBy('created_at')->with("user")->paginate(6);
-        return view('client.new.new', compact('news'));
+
+        return view('client.new.new');
     }
 
     /**
