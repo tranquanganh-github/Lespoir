@@ -36,7 +36,11 @@ class Cloundinary
             [
                 'public_id' => $publicId,
                 'use_filename' => TRUE,
-                'overwrite' => TRUE
+                'overwrite' => TRUE,
+                'transformation' => [
+                    'width' => 340,
+                    'height' => 340
+                ],
             ]
         );
             $url = $this->admin->asset($publicId, ['colors' => TRUE])->getArrayCopy()["url"];
@@ -49,7 +53,11 @@ class Cloundinary
             [
                 'public_id' => $publicId,
                 'use_filename' => TRUE,
-                'overwrite' => TRUE
+                'overwrite' => TRUE,
+                'transformation' => [
+                    'width' => 340,
+                    'height' => 340
+                ],
             ]
         );
         $url = $this->admin->asset($publicId, ['colors' => TRUE])->getArrayCopy()["url"];

@@ -79,11 +79,11 @@
                                             </div>
                                         </td>
                                         @if($user->status ==1)
-                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>0])}}">UnBlock</a></td>
+                                            <td><a class="btn btn-success" onclick="return confirm('Are you sure?')" href="{{route('admin.form.user.status',["id"=>$user->id,"status"=>0])}}">UnBlock</a></td>
                                         @else
-                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route("admin.user.update",["id"=>$user->id,"status"=>1])}}">Block</a></td>
+                                            <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{route('admin.form.user.status',["id"=>$user->id,"status"=>1])}}">Block</a></td>
                                         @endif
-                                        <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route("admin.form.user",['id'=>$user->id]) }}">Edit</a></td>
+                                        <td><a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="{{ route('admin.form.user',['id'=>$user->id]) }}">Edit</a></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

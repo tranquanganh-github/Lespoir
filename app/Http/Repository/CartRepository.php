@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class CartRepository
 {
+
+    /**
+     * tạo giỏ hàng
+     * @param $user_id
+     * @param $items
+     * @return null
+     */
     function createCart($user_id, $items)
     {
         DB::beginTransaction();
@@ -32,7 +39,13 @@ class CartRepository
     }
 
 
-function createCartItem($shopping_cart_id, $items)
+    /**
+     * tạo item trong giỏ hàng
+     * @param $shopping_cart_id
+     * @param $items
+     * @return mixed
+     */
+    function createCartItem($shopping_cart_id, $items)
 {
     $data = [];
     foreach ($items as $item) {

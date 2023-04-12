@@ -15,6 +15,7 @@ class BaseAuthenController extends Controller
     {
         $this->hasher = $hasher;
     }
+    /*tạo chuỗi muối*/
     function randomSalt($len = 8)
     {
         $chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789`~!@#$%^&*()-=_+';
@@ -27,7 +28,7 @@ class BaseAuthenController extends Controller
     }
 
 
-
+    /*mã hóa mật khẩu*/
     function createPasswordHas($password)
     {
         return $this->hasher->make($password);

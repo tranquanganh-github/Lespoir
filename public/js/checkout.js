@@ -1,38 +1,61 @@
 let confirm = "true";
 
-function order(event){
+
+
+function validateDataCheckout(data) {
+    if (data.carts.length <= 0) {
+        return {
+            "result": false,
+            "message": 'You have no products in your shopping cart!',
+        };
+    }
+
+    if (data.address == "" || data.email == "" || data.name == "" || data.phone == "") {
+        return {
+            "result": false,
+            "message": 'You have missing data',
+        };
+    }
+    return {
+        "result": true,
+        "message": 'success',
+    };
+}
+
+function order(event) {
     event.preventDefault();
-
-
-    var data =getData();
-    if (data.carts.length <= 0){
-        Swal.fire({
+    var data = getData();
+    let validate = validateDataCheckout(data);
+    if (validate.result == false) {
+        return Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'SYou have no products in your shopping cart!',
-        })
-    }else{
+            text: validate.message
+        });
+    } else {
         showLoad();
-    sendAjax(CheckoutUrl,data);
+        sendAjax(CheckoutUrl,data);
     }
 }
- $("form[name=paypal]").submit(function (e){
+
+$("form[name=paypal]").submit(function (e) {
     e.preventDefault();
-   var data = getData();
-    if (data.carts.length <= 0){
-        Swal.fire({
+    var data = getData();
+    let validate = validateDataCheckout(data);
+    if (validate.result == false) {
+        return Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: 'SYou have no products in your shopping cart!',
-        })
-    }else{
+            text: validate.message
+        });
+    } else {
         showLoad();
-        ajaxPaypal(PayPalCheckoutUrl,data);
+        ajaxPaypal(PayPalCheckoutUrl, data);
     }
 });
 
 
-function alertMethod(message,icon){
+function alertMethod(message, icon) {
     Swal.fire({
         icon: icon,
         title: message ?? "",
@@ -48,7 +71,7 @@ function archiveFunction(message) {
         denyButtonText: `Refuse to order`,
     }).then((result) => {
         if (result.isConfirmed) {
-            sendAjax(CheckoutUrl,getData());
+            sendAjax(CheckoutUrl, getData());
             confirm = "true";
         } else if (result.isDenied) {
             Swal.fire('Changes are not saved', '', 'info')
@@ -56,35 +79,37 @@ function archiveFunction(message) {
     })
 
 }
-function getData(){
+
+function getData() {
     var carts = [];
-    $(".data-cart").each((key,element) => {
-        carts.push( {
-            name:$(element).data("name"),
-            id:$(element).data("id"),
-            quantity:$(element).data("quantity"),
-            price:$(element).data("price"),
+    $(".data-cart").each((key, element) => {
+        carts.push({
+            name: $(element).data("name"),
+            id: $(element).data("id"),
+            quantity: $(element).data("quantity"),
+            price: $(element).data("price"),
         });
     });
     return {
-        carts:carts,
-        shipping:$(".shipping-price").val(),
-        name:$("input[name=name]").val(),
-        email:$("input[name=email]").val(),
-        address:$("input[name=address]").val(),
-        phone:$("input[name=phone]").val(),
-        message:$("textarea[name=bill]").val(),
-        confirm:confirm,
+        carts: carts,
+        shipping: $(".shipping-price").val(),
+        name: $("input[name=name]").val(),
+        email: $("input[name=email]").val(),
+        address: $("input[name=address]").val(),
+        phone: $("input[name=phone]").val(),
+        message: $("textarea[name=bill]").val(),
+        confirm: confirm,
     }
 }
-function sendAjax(url,data){
+
+function sendAjax(url, data) {
     $.ajax({
         type: "POST",
-        url:url,
+        url: url,
         data: data,
         dataType: "json",
         encode: true,
-        success:  function (data) {
+        success: function (data) {
             hiddenLoad();
             switch (data.status) {
                 case STATUS_SUCCESS:
@@ -105,25 +130,27 @@ function sendAjax(url,data){
                     break;
             }
         },
-        error: function (){
-        hiddenLoad();
-        alertMethod("Error System", "error");
-    },
+        error: function () {
+            hiddenLoad();
+            alertMethod("Error System", "error");
+        },
     });
 }
-function ajaxPaypal(url,data){
+
+function ajaxPaypal(url, data) {
 
     $.ajax({
         type: "POST",
-        url:url,
+        url: url,
         data: data,
         dataType: "json",
         encode: true,
-        success:  function (data) {
+        success: function (data) {
             hiddenLoad();
+            console.log(data);
             switch (data.status) {
                 case STATUS_SUCCESS:
-                        window.location.href = data.data.paypal_link;
+                    window.location.href = data.data.paypal_link;
                     break;
                 case STATUS_FAIL:
                     alertMethod(data.message, "error");
@@ -136,7 +163,7 @@ function ajaxPaypal(url,data){
                     break;
             }
         },
-        error: function (){
+        error: function () {
             hiddenLoad();
             alertMethod("Error System", "error");
         },

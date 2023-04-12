@@ -10,6 +10,13 @@ use Illuminate\Support\Facades\DB;
 
 class OrderRepository
 {
+
+    /**
+     * tạo chi tiết đơn hàng
+     * @param $order_id
+     * @param $items
+     * @return mixed
+     */
     function createOrderDetail($order_id, $items)
     {
         $data = [];
@@ -25,6 +32,13 @@ class OrderRepository
         return OrderDetail::insert($data);
     }
 
+    /**
+     * tạo đơn hàng
+     * @param $user_id
+     * @param $data
+     * @param $getOrder
+     * @return false|mixed
+     */
     function createOrder($user_id, $data, $getOrder = false)
     {
         DB::beginTransaction();
@@ -59,6 +73,12 @@ class OrderRepository
         }
     }
 
+    /**
+     * tìm đơn hàng theo điện thoại
+     * @param $phone
+     * @param $whitWating
+     * @return mixed
+     */
     function getOrderByPhone($phone, $whitWating = false)
     {
         $order = Orders::where("code", "=", $phone);
@@ -69,16 +89,31 @@ class OrderRepository
         return $order->get();
     }
 
+    /**
+     * tìm đơn hàng theo id
+     * @param $id
+     * @return mixed
+     */
     function getOrderById($id)
     {
         return Orders::whereId($id)->with(["order_details.product"]);
     }
 
+    /**
+     * cập nhật đơn hàng theo id
+     * @param $id
+     * @param $data
+     * @return mixed
+     */
     function updateOrderById($id, $data)
     {
         return Orders::find($id)->update($data);
     }
 
+    /**
+     * lấy ra toàn bộ đơn hàng
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
     function getAllOrder(){
         return Orders::all();
     }

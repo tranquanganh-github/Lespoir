@@ -150,6 +150,7 @@
 {{--                    </ul>--}}
                     <ul aria-expanded="false">
                         <li><a href="{{route("admin.table.products")}}">Product</a></li>
+                        <li><a href="{{route("admin.table.categories")}}">Categories</a></li>
                         <li><a href="{{route("admin.table.orders")}}">Orders</a></li>
                         <li><a href="{{route("admin.table.users")}}">Users</a></li>
                         <li><a href="{{route("admin.table.news")}}">News</a></li>
@@ -161,8 +162,7 @@
                     </a>
                     <ul aria-expanded="false">
                         <li><a href="{{route("admin.form.product")}}">Product</a></li>
-{{--                        <li><a href="{{route("admin.form.order")}}">Order</a></li>--}}
-{{--                        <li><a href="{{route("admin.form.user")}}">User</a></li>--}}
+                        <li><a href="{{route("admin.form.category")}}">Category</a></li>
                         <li><a href="{{route("admin.form.new")}}">New</a></li>
                     </ul>
                 </li>

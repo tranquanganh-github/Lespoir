@@ -13,8 +13,8 @@
                                 <p class="subtitle">Fresh & Organic</p>
                                 <h1>Delicious Seasonal Fruits</h1>
                                 <div class="hero-btns">
-                                    <a href="shop.html" class="boxed-btn">Fruit Collection</a>
-                                    <a href="contact.html" class="bordered-btn">Contact Us</a>
+                                    <a href="{{route("shop")}}" class="boxed-btn">Fruit Collection</a>
+                                    <a href="{{route("contact")}}" class="bordered-btn">Contact Us</a>
                                 </div>
                             </div>
                         </div>
@@ -32,8 +32,8 @@
                                 <p class="subtitle">Fresh Everyday</p>
                                 <h1>100% Organic Collection</h1>
                                 <div class="hero-btns">
-                                    <a href="shop.html" class="boxed-btn">Visit Shop</a>
-                                    <a href="contact.html" class="bordered-btn">Contact Us</a>
+                                    <a href="{{route("shop")}}" class="boxed-btn">Visit Shop</a>
+                                    <a href="{{route("contact")}}" class="bordered-btn">Contact Us</a>
                                 </div>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                                 <p class="subtitle">Mega Sale Going On!</p>
                                 <h1>Get December Discount</h1>
                                 <div class="hero-btns">
-                                    <a href="shop.html" class="boxed-btn">Visit Shop</a>
-                                    <a href="contact.html" class="bordered-btn">Contact Us</a>
+                                    <a href="{{route("shop")}}" class="boxed-btn">Visit Shop</a>
+                                    <a href="{{route("contact")}}" class="bordered-btn">Contact Us</a>
                                 </div>
                             </div>
                         </div>

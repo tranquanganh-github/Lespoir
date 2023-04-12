@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         $roles = Roles::all();
         foreach ($roles as $role) {
             Gate::define($role->name, function (User $user) use ($role) {
-                $roleIds = $this->getRolesArray($user);
+                $roleIds = $user->getRolesArray("id");
                 if (in_array($role->id, $roleIds)&&$user->status==1){
                     return true;
                 }
@@ -40,16 +40,5 @@ class AuthServiceProvider extends ServiceProvider
             });
         }
     }
-    public function getRolesArray(User $user)
-    {
-        $cacheKey = "role_ids_".$user->id;
-        $rolesIds = Cache::get($cacheKey);
-        if(!is_null($rolesIds)){
-            return $rolesIds;
-        }
-        $user = User::where("id", "=", $user->id)->with(["roles"])->get();
-        $rolesIds = $user->pluck("roles")->flatten()->pluck("id")->toArray();
-        Cache::put($cacheKey, $rolesIds, 300);
-        return $rolesIds;
-    }
+
 }
