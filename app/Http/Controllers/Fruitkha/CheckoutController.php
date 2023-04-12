@@ -12,6 +12,7 @@ use App\Http\Respone\CheckoutRespone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use Illuminate\Support\Facades\Mail;
 use PHPUnit\Exception;
 use Srmklive\PayPal\Facades\PayPal;
 use Srmklive\PayPal\Services\ExpressCheckout;
@@ -231,6 +232,10 @@ class CheckoutController extends Controller
             if ($response["PAYMENTINFO_0_ACK"] === "Success") {
                 /*thanh toán thành công thì cập nhật lại trạng thái đơn hàng là paid*/
                 $result =  $this->orderRepository->updateOrderById($orderId,["status"=>1]);
+                if ($request){
+                    /*gửi mail thanh toán*/
+                    Mail::to($order->email)->send(new \App\Mail\OrderMail($order->toArray()));
+                }
                 /*tiến hành clear session đơn hàng đang chờ vừa tạo khi xác thực người dùng paypal*/
                 session()->forget("current_order_waitin_paypal");
                 /*thông báo thanh toán thành công*/
