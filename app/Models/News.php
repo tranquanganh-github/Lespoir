@@ -46,10 +46,12 @@ class News extends Model
     {
         return 'news_index';
     }
-    protected function makeAllSearchableUsing(Builder $query): Builder
-    {
-        return $query->with('user');
-    }
+
+//    protected function makeAllSearchableUsing(Builder $query): Builder
+//    {
+//        return $query->with('user');
+//    }
+
     public function toSearchableArray()
     {
         return [

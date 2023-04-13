@@ -168,8 +168,9 @@ class CheckoutController extends Controller
             /*tiêu đề thanh toán trang paypal*/
             $data['invoice_id'] = $order->id;
             $data['invoice_description'] = "Order #{$data['invoice_id']} Invoice";
-            $data['return_url'] = route("payment.paypal.success");
             /*webhook để paypal gọi khi khách hàng chấp nhận thanh toán*/
+            $data['return_url'] = route("payment.paypal.success");
+
             $data['cancel_url'] = route("check-out");
             $data['total'] = $sum;
             $data['shipping_discount'] = 0;
@@ -232,7 +233,7 @@ class CheckoutController extends Controller
             if ($response["PAYMENTINFO_0_ACK"] === "Success") {
                 /*thanh toán thành công thì cập nhật lại trạng thái đơn hàng là paid*/
                 $result =  $this->orderRepository->updateOrderById($orderId,["status"=>1]);
-                if ($request){
+                if ($result){
                     /*gửi mail thanh toán*/
                     Mail::to($order->email)->send(new \App\Mail\OrderMail($order->toArray()));
                 }
